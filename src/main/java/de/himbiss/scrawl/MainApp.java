@@ -16,6 +16,9 @@ import com.cathive.fx.guice.GuiceFXMLLoader;
 import com.cathive.fx.guice.GuiceFXMLLoader.Result;
 import com.google.inject.Module;
 
+import de.himbiss.scrawl.model.Constants;
+import de.himbiss.scrawl.model.editors.EditorManager;
+import de.himbiss.scrawl.model.editors.ManuscriptEditor;
 import de.himbiss.scrawl.view.MainLayoutController;
 
 public class MainApp extends GuiceApplication {
@@ -27,6 +30,9 @@ public class MainApp extends GuiceApplication {
 
 	@Inject
 	private GuiceFXMLLoader fxmlLoader;
+	
+	@Inject
+	private EditorManager editorManager;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -43,6 +49,8 @@ public class MainApp extends GuiceApplication {
 
 		primaryStage.setTitle("Scrawl");
 		primaryStage.show();
+		
+		editorManager.registerEditor(Constants.MANUSCRIPT_EDITOR, ManuscriptEditor.class);
 	}
 	
 	void showMainLayout() {

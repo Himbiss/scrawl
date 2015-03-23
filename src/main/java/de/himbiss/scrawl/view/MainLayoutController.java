@@ -4,6 +4,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javax.inject.Inject;
+
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,6 +24,8 @@ import javafx.util.Callback;
 import com.cathive.fx.guice.FXMLController;
 
 import de.himbiss.scrawl.MainApp;
+import de.himbiss.scrawl.model.Constants;
+import de.himbiss.scrawl.model.editors.EditorManager;
 
 @FXMLController(controllerId = "mainController")
 public final class MainLayoutController implements Initializable {
@@ -33,6 +37,13 @@ public final class MainLayoutController implements Initializable {
 
 	@FXML
 	private TabPane tabPane;
+
+	@Inject
+	private EditorManager editorManager;
+	
+	public boolean openNewTab(Tab tab) {
+		return tabPane.getTabs().add(tab);
+	}
 
 	/**
 	 * Closes the application.
@@ -105,88 +116,94 @@ public final class MainLayoutController implements Initializable {
 		treeView.setCellFactory(cellFactory);
 	}
 
-	Callback<TreeView<File>, TreeCell<File>> cellFactory = new Callback<TreeView<File>, TreeCell<File>>()
-			{
+	Callback<TreeView<File>, TreeCell<File>> cellFactory = new Callback<TreeView<File>, TreeCell<File>>() {
 
-				@Override
-				public TreeCell<File> call(TreeView<File> param) {
-					TreeCell<File> fileCell = new TextFieldTreeCellImpl();
-					fileCell.addEventFilter(MouseEvent.MOUSE_CLICKED, new EventHandler<Event>() {
+
+		@Override
+		public TreeCell<File> call(TreeView<File> param) {
+			TreeCell<File> fileCell = new TextFieldTreeCellImpl();
+			fileCell.addEventFilter(MouseEvent.MOUSE_CLICKED,
+					new EventHandler<Event>() {
 
 						@Override
 						public void handle(Event event) {
-							System.out.println("Clicked: "+event.getSource().toString());
+							System.out.println("Clicked: "
+									+ event.getSource().toString());
+							if(fileCell.getItem() != null)
+								editorManager.openEditor(
+									Constants.MANUSCRIPT_EDITOR,
+									fileCell.getItem());
 						}
 					});
-					
-					return fileCell;
-				}
+
+			return fileCell;
+		}
 	};
-	
-	 private final class TextFieldTreeCellImpl extends TreeCell<File> {
-		 
-	        private TextField textField;
-	 
-	        public TextFieldTreeCellImpl() {
-	        }
-	 
-	        @Override
-	        public void startEdit() {
-	            super.startEdit();
-	 
-	            if (textField == null) {
-	                createTextField();
-	            }
-	            setText(null);
-	            setGraphic(textField);
-	            textField.selectAll();
-	        }
-	 
-	        @Override
-	        public void cancelEdit() {
-	            super.cancelEdit();
-	            setText(((File) getItem()).getName());
-	            setGraphic(getTreeItem().getGraphic());
-	        }
-	 
-	        @Override
-	        public void updateItem(File item, boolean empty) {
-	            super.updateItem(item, empty);
-	 
-	            if (empty) {
-	                setText(null);
-	                setGraphic(null);
-	            } else {
-	                if (isEditing()) {
-	                    if (textField != null) {
-	                        textField.setText(getString());
-	                    }
-	                    setText(null);
-	                    setGraphic(textField);
-	                } else {
-	                    setText(getString());
-	                    setGraphic(getTreeItem().getGraphic());
-	                }
-	            }
-	        }
-	 
-	        private void createTextField() {
-	            textField = new TextField(getString());
-	            textField.setOnKeyReleased(new EventHandler<KeyEvent>() {
-	 
-	                @Override
-	                public void handle(KeyEvent t) {
-	                    if (t.getCode() == KeyCode.ENTER) {
-	                        commitEdit(new File(textField.getText()));
-	                    } else if (t.getCode() == KeyCode.ESCAPE) {
-	                        cancelEdit();
-	                    }
-	                }
-	            });
-	        }
-	 
-	        private String getString() {
-	            return getItem() == null ? "" : getItem().toString();
-	        }
-	    }
+
+	private final class TextFieldTreeCellImpl extends TreeCell<File> {
+
+		private TextField textField;
+
+		public TextFieldTreeCellImpl() {
+		}
+
+		@Override
+		public void startEdit() {
+			super.startEdit();
+
+			if (textField == null) {
+				createTextField();
+			}
+			setText(null);
+			setGraphic(textField);
+			textField.selectAll();
+		}
+
+		@Override
+		public void cancelEdit() {
+			super.cancelEdit();
+			setText(((File) getItem()).getName());
+			setGraphic(getTreeItem().getGraphic());
+		}
+
+		@Override
+		public void updateItem(File item, boolean empty) {
+			super.updateItem(item, empty);
+
+			if (empty) {
+				setText(null);
+				setGraphic(null);
+			} else {
+				if (isEditing()) {
+					if (textField != null) {
+						textField.setText(getString());
+					}
+					setText(null);
+					setGraphic(textField);
+				} else {
+					setText(getString());
+					setGraphic(getTreeItem().getGraphic());
+				}
+			}
+		}
+
+		private void createTextField() {
+			textField = new TextField(getString());
+			textField.setOnKeyReleased(new EventHandler<KeyEvent>() {
+
+				@Override
+				public void handle(KeyEvent t) {
+					if (t.getCode() == KeyCode.ENTER) {
+						commitEdit(new File(textField.getText()));
+					} else if (t.getCode() == KeyCode.ESCAPE) {
+						cancelEdit();
+					}
+				}
+			});
+		}
+
+		private String getString() {
+			return getItem() == null ? "" : getItem().toString();
+		}
+	}
 }
