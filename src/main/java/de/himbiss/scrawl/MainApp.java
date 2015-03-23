@@ -18,7 +18,8 @@ import com.google.inject.Module;
 
 import de.himbiss.scrawl.model.Constants;
 import de.himbiss.scrawl.model.editors.EditorManager;
-import de.himbiss.scrawl.model.editors.ManuscriptEditor;
+import de.himbiss.scrawl.model.editors.manuscripteditor.ManuscriptEditor;
+import de.himbiss.scrawl.model.project.ProjectManager;
 import de.himbiss.scrawl.view.MainLayoutController;
 
 public class MainApp extends GuiceApplication {
@@ -33,6 +34,9 @@ public class MainApp extends GuiceApplication {
 	
 	@Inject
 	private EditorManager editorManager;
+	
+	@Inject
+	private ProjectManager projectManager;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -51,6 +55,8 @@ public class MainApp extends GuiceApplication {
 		primaryStage.show();
 		
 		editorManager.registerEditor(Constants.MANUSCRIPT_EDITOR, ManuscriptEditor.class);
+		
+		projectManager.loadProject();
 	}
 	
 	void showMainLayout() {

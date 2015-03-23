@@ -110,9 +110,14 @@ public final class MainLayoutController implements Initializable {
 		this.mainApp = mainApp;
 	}
 
+	public void setTreeRoot(File file) {
+		SimpleFileTreeItem treeItem = new SimpleFileTreeItem(file);
+		treeView.setRoot(treeItem);
+		treeItem.setExpanded(true);
+	}
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		treeView.setRoot(new SimpleFileTreeItem(new File("/")));
 		treeView.setCellFactory(cellFactory);
 	}
 
