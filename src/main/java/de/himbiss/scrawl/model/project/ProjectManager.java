@@ -39,11 +39,24 @@ public class ProjectManager {
         }
     }
 	
+	private Project parseProject(File projectRoot) {
+		logger.log(Level.INFO, "Parsing the project");
+		Project project = new Project("Testproject1");
+		project.getPersons().add(new Person("Hänsel"));
+		project.getPersons().add(new Person("Gretel"));
+		project.getLocations().add(new Location("Pfefferkuchenhaus"));
+		project.getLocations().add(new Location("Wald"));
+		project.getObjects().add(new Object("Ofen"));
+		project.getScenes().add(new Scene("Kapitel1"));
+		return project;
+	}
+	
 	public boolean loadProject() {
 		File projectRoot = getProjectPath();
 		if(projectRoot != null) {
 			logger.log(Level.INFO, "Loading project from location: " + projectRoot.getAbsolutePath());
-			mainController.setTreeRoot(projectRoot);
+			Project project = parseProject(projectRoot);
+			mainController.setProject(project);
 			return true;
 		}
 		logger.log(Level.ERROR, "Error loading project, could not retrieve project path");
