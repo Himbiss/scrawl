@@ -4,7 +4,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 
-public class Project extends Node<Project> {
+public class Project extends Folder<Node<?>> {
 
 	private ObjectProperty<Folder<Scene>> scenes;
 	private ObjectProperty<Folder<Person>> persons;
@@ -33,5 +33,10 @@ public class Project extends Node<Project> {
 	
 	public Folder<Object> getObjects() {
 		return objects.getValue();
+	}
+
+	@Override
+	public boolean isFolder() {
+		return true;
 	}
 }

@@ -13,13 +13,15 @@ import de.himbiss.scrawl.MainApp;
 import de.himbiss.scrawl.model.Constants;
 import de.himbiss.scrawl.view.MainLayoutController;
 
-public class ProjectManager {
+public class ProjectManager implements ProjectController {
 	
 	@Inject
 	MainLayoutController mainController;
-	
+
 	Logger logger = LogManager.getLogger(ProjectManager.class);
 	
+	private Project currentProject;
+
 	public File getProjectPath() {
 		Preferences prefs = Preferences.userNodeForPackage(MainApp.class);
 		String path = prefs.get(Constants.PROJECT_LOCATION, null);
@@ -41,13 +43,13 @@ public class ProjectManager {
 	
 	private Project parseProject(File projectRoot) {
 		logger.log(Level.INFO, "Parsing the project");
-		Project project = new Project("Testproject1");
-		project.getPersons().add(new Person("Hänsel"));
-		project.getPersons().add(new Person("Gretel"));
-		project.getLocations().add(new Location("Pfefferkuchenhaus"));
-		project.getLocations().add(new Location("Wald"));
-		project.getObjects().add(new Object("Ofen"));
-		project.getScenes().add(new Scene("Kapitel1"));
+		Project project = NodeFactory.createProject("TestProjekt");
+		project.getPersons().add(NodeFactory.createPerson("Hänsel"));
+		project.getPersons().add(NodeFactory.createPerson("Gretel"));
+		project.getLocations().add(NodeFactory.createLocation("Pfefferkuchenhaus"));
+		project.getLocations().add(NodeFactory.createLocation("Wald"));
+		project.getObjects().add(NodeFactory.createObject("Ofen"));
+		project.getScenes().add(NodeFactory.createScene("Kapitel1"));
 		return project;
 	}
 	
@@ -56,10 +58,48 @@ public class ProjectManager {
 		if(projectRoot != null) {
 			logger.log(Level.INFO, "Loading project from location: " + projectRoot.getAbsolutePath());
 			Project project = parseProject(projectRoot);
+			this.currentProject = project;
 			mainController.setProject(project);
 			return true;
 		}
 		logger.log(Level.ERROR, "Error loading project, could not retrieve project path");
 		return false;
 	}
+
+	public Project getCurrentProject() {
+		return currentProject;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public <T> void handleNewNode(Node<T> n) {
+		Folder<T> folder = n.isFolder() ? (Folder<T>)n : n.getParent();
+		Node<?> uniqueNode = NodeFactory.createUniqueNode(n.getNodeType());
+		folder.add((Node<T>) uniqueNode);
+		mainController.setProject(getCurrentProject());
+	}
+
+	@Override
+	public <T> void handleDeleteNode(Node<T> n) {
+		n.getParent().remove(n);
+		NodeFactory.freeNode(n.getIdentifier().getValue(), n.getNodeType());
+		mainController.setProject(getCurrentProject());
+	}
+
+	@Override
+	public <T> void handleCopyNode(Node<T> n) {
+		// TODO Auto-generated method stub
+		System.out.println("Copy Node");
+
+		mainController.setProject(getCurrentProject());
+	}
+
+	@Override
+	public <T> void handlePasteNode(Node<T> n) {
+		// TODO Auto-generated method stub
+		System.out.println("Paste Node");
+
+		mainController.setProject(getCurrentProject());
+	}
+	
 }

@@ -12,14 +12,18 @@ import javafx.scene.control.TreeView;
 import javax.inject.Inject;
 
 import com.cathive.fx.guice.FXMLController;
+import com.cathive.fx.guice.GuiceApplication;
+import com.cathive.fx.guice.GuiceFXMLLoader;
 
 import de.himbiss.scrawl.MainApp;
+import de.himbiss.scrawl.model.Constants;
 import de.himbiss.scrawl.model.editors.EditorManager;
 import de.himbiss.scrawl.model.project.Location;
 import de.himbiss.scrawl.model.project.Node;
 import de.himbiss.scrawl.model.project.Object;
 import de.himbiss.scrawl.model.project.Person;
 import de.himbiss.scrawl.model.project.Project;
+import de.himbiss.scrawl.model.project.ProjectManager;
 import de.himbiss.scrawl.model.project.Scene;
 
 @FXMLController(controllerId = "mainController")
@@ -44,6 +48,9 @@ public final class MainLayoutController implements Initializable {
 
 	@Inject
 	private EditorManager editorManager;
+	
+	@Inject
+	private ProjectManager projectManager;
 	
 	public boolean openNewTab(Tab tab) {
 		return tabPane.getTabs().add(tab);
@@ -124,5 +131,15 @@ public final class MainLayoutController implements Initializable {
 		locationsTree.showRootProperty().set(false);
 		personsTree.showRootProperty().set(false);
 		objectsTree.showRootProperty().set(false);
+		
+		TreeContextMenu<Scene> scenesContextMenu = new TreeContextMenu<Scene>(scenesTree, Constants.SCENE_FORMAT, projectManager);
+		TreeContextMenu<Location> locationsContextMenu = new TreeContextMenu<Location>(locationsTree, Constants.LOCATION_FORMAT, projectManager);
+		TreeContextMenu<Person> personsContextMenu = new TreeContextMenu<Person>(personsTree, Constants.PERSON_FORMAT, projectManager);
+		TreeContextMenu<Object> objectsContextMenu = new TreeContextMenu<Object>(objectsTree, Constants.OBJECT_FORMAT, projectManager);
+		
+		scenesTree.setContextMenu(scenesContextMenu);
+		locationsTree.setContextMenu(locationsContextMenu);
+		personsTree.setContextMenu(personsContextMenu);
+		objectsTree.setContextMenu(objectsContextMenu);
 	}
 }
