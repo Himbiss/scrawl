@@ -4,6 +4,8 @@ import javafx.scene.input.DataFormat;
 import de.himbiss.scrawl.model.project.Folder;
 import de.himbiss.scrawl.model.project.Node;
 import de.himbiss.scrawl.model.project.NodeType;
+import de.himbiss.scrawl.model.project.Project;
+import de.himbiss.scrawl.model.project.Scene;
 
 public class NodeHelper {
 	// clipboard data formats
@@ -23,8 +25,6 @@ public class NodeHelper {
 			return SCENE_FORMAT;
 		case OBJECT:
 			return OBJECT_FORMAT;
-		case FOLDER:
-			return FOLDER_FORMAT;
 		default:
 			return null;
 		}

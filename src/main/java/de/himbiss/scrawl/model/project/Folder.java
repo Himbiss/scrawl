@@ -9,8 +9,13 @@ public class Folder <T> extends Node<T> {
 	
 	private List<Node<T>> components;
 	
-	public Folder(String identifier) {
-		super(identifier, NodeType.FOLDER);
+	public Folder(String identifier, NodeType nodeType) {
+		super(identifier, nodeType);
+		components = new ArrayList<Node<T>>();
+	}
+	
+	public Folder(String identifier, NodeType nodeType, boolean isDeletable) {
+		super(identifier, nodeType, isDeletable);
 		components = new ArrayList<Node<T>>();
 	}
 	
@@ -32,4 +37,5 @@ public class Folder <T> extends Node<T> {
 	public boolean isFolder() {
 		return true;
 	}
+
 }

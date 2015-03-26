@@ -11,11 +11,11 @@ public class Project extends Folder<Node<?>> {
 	private Folder<Location> locations;
 	
 	public Project(String identifier) {
-		super(identifier);
-		scenes = new Folder<>("Scenes");
-		persons = new Folder<>("Persons");
-		objects = new Folder<>("Objects");
-		locations = new Folder<>("Locations");
+		super(identifier, null);
+		scenes = new Folder<>("Scenes", NodeType.SCENE, false);
+		persons = new Folder<>("Persons", NodeType.PERSON, false);
+		objects = new Folder<>("Objects", NodeType.OBJECT, false);
+		locations = new Folder<>("Locations", NodeType.LOCATION, false);
 	}
 	
 	public Folder<Location> getLocations() {

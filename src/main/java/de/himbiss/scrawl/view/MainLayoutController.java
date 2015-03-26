@@ -128,11 +128,6 @@ public final class MainLayoutController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		scenesTree.showRootProperty().set(false);
-		locationsTree.showRootProperty().set(false);
-		personsTree.showRootProperty().set(false);
-		objectsTree.showRootProperty().set(false);
-		
 		TreeContextMenu<Scene> scenesContextMenu = new TreeContextMenu<Scene>(scenesTree, NodeHelper.SCENE_FORMAT, projectManager);
 		TreeContextMenu<Location> locationsContextMenu = new TreeContextMenu<Location>(locationsTree, NodeHelper.LOCATION_FORMAT, projectManager);
 		TreeContextMenu<Person> personsContextMenu = new TreeContextMenu<Person>(personsTree, NodeHelper.PERSON_FORMAT, projectManager);

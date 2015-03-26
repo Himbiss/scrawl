@@ -9,6 +9,12 @@ public interface ProjectController {
 	public <T> void handleNewNode(Node<T> n);
 	
 	/**
+	 * Handles adding a folder to the currently selected node n
+	 * @param n
+	 */
+	public <T> void handleNewFolder(Node<T> n);
+	
+	/**
 	 * Handles the deletion of node n
 	 * @param n
 	 */

@@ -9,6 +9,10 @@ public abstract class Node<T> implements Serializable {
 	private String description;
 	private String identifier;
 	
+	private boolean isDeletable;
+	private boolean isExpanded;
+	
+
 	private Folder<T> parent;
 
 	private NodeType nodeType;
@@ -17,6 +21,16 @@ public abstract class Node<T> implements Serializable {
 		this.identifier =identifier;
 		this.description = "";
 		this.nodeType = nodeType;
+		setDeletable(true);
+		setExpanded(false);
+	}
+	
+	public Node(String identifier, NodeType nodeType, boolean isDeletable) {
+		this.identifier =identifier;
+		this.description = "";
+		this.nodeType = nodeType;
+		setDeletable(isDeletable);
+		setExpanded(false);
 	}
 	
 	public String getDescription() {
@@ -52,5 +66,21 @@ public abstract class Node<T> implements Serializable {
 	
 	public void setParent(Folder<T> parent) {
 		this.parent = parent;
+	}
+
+	public boolean isDeletable() {
+		return isDeletable;
+	}
+
+	public void setDeletable(boolean isDeletable) {
+		this.isDeletable = isDeletable;
+	}
+
+	public boolean isExpanded() {
+		return isExpanded;
+	}
+
+	public void setExpanded(boolean isExpanded) {
+		this.isExpanded = isExpanded;
 	}
 }

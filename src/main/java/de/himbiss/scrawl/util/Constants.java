@@ -21,4 +21,5 @@ public class Constants {
 	public static final String OBJECT_NODE = "Object";
 	public static final String PERSON_NODE = "Person";
 	public static final String PROJECT_NODE = "Project";
+	public static final String NEW_FOLDER_ITEM = "New Folder";
 }

@@ -17,8 +17,8 @@ public class NodeFactory {
 		return new Project(identifier);
 	}
 	
-	public static Folder<?> createFolder(String identifier) {
-		return new Folder<>(identifier);
+	public static Folder<?> createFolder(String identifier, NodeType nodeType) {
+		return new Folder<>(identifier, nodeType);
 	}
 	
 	public static Scene  createScene(String identifier) {
@@ -65,16 +65,12 @@ public class NodeFactory {
 		switch(nodeType) {
 		case SCENE:
 			return createUniqueScene();
-		case FOLDER:
-			return createFolder("New ".concat(Constants.FOLDER_NODE));
 		case LOCATION:
 			return createUniqueLocation();
 		case PERSON:
 			return createUniquePerson();
 		case OBJECT:
 			return createUniqueObject();
-		case PROJECT:
-			return createProject("New ".concat(Constants.PROJECT_NODE));
 		default:
 			return null;
 		}
