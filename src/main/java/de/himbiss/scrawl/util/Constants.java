@@ -3,8 +3,10 @@ package de.himbiss.scrawl.util;
 
 public class Constants {
 	public static final String MANUSCRIPT_EDITOR = "manuscript_editor";
+
+	public static final String WORKSPACE_PATH = "workspace_path";
 	
-	public static final String PROJECT_LOCATION = "project_location";
+	public static final String PROJECT_NAME = "project_name";
 
 	public static final String USER_HOME = "user.home";
 	
@@ -22,4 +24,10 @@ public class Constants {
 	public static final String PERSON_NODE = "Person";
 	public static final String PROJECT_NODE = "Project";
 	public static final String NEW_FOLDER_ITEM = "New Folder";
+
+	public static final String FILE_EXTENSION = ".xml";
+
+	public static final String NEW_PROJECT = "NewProject";
+
+	public static final String TITLE = "Scrawl";
 }

@@ -2,6 +2,12 @@ package de.himbiss.scrawl.model.project;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
+
+@XmlSeeAlso({Folder.class, Location.class, Person.class, Object.class, Scene.class})
 public abstract class Node<T> implements Serializable {
 
 	private static final long serialVersionUID = -748448656969685107L;
@@ -12,7 +18,6 @@ public abstract class Node<T> implements Serializable {
 	private boolean isDeletable;
 	private boolean isExpanded;
 	
-
 	private Folder<T> parent;
 
 	private NodeType nodeType;
@@ -33,6 +38,11 @@ public abstract class Node<T> implements Serializable {
 		setExpanded(false);
 	}
 	
+	public Node() {
+		// for jaxb / serialization
+	}
+	
+	@XmlElement
 	public String getDescription() {
 		return description;
 	}
@@ -41,6 +51,7 @@ public abstract class Node<T> implements Serializable {
 		this.description = description;
 	}
 	
+	@XmlAttribute(name = "name")
 	public String getIdentifier() {
 		return identifier;
 	}
@@ -48,11 +59,13 @@ public abstract class Node<T> implements Serializable {
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
 	}
-	
+
+	@XmlAttribute
 	public NodeType getNodeType() {
 		return nodeType;
 	}
-	
+
+	@XmlAttribute(name = "is_folder")
 	public abstract boolean isFolder();
 	
 	@Override
@@ -60,6 +73,7 @@ public abstract class Node<T> implements Serializable {
 		return getIdentifier();
 	}
 
+	@XmlTransient
 	public Folder<T> getParent() {
 		return parent;
 	}
@@ -68,6 +82,7 @@ public abstract class Node<T> implements Serializable {
 		this.parent = parent;
 	}
 
+	@XmlAttribute(name = "is_deletable")
 	public boolean isDeletable() {
 		return isDeletable;
 	}
@@ -76,6 +91,7 @@ public abstract class Node<T> implements Serializable {
 		this.isDeletable = isDeletable;
 	}
 
+	@XmlAttribute(name = "is_expanded")
 	public boolean isExpanded() {
 		return isExpanded;
 	}

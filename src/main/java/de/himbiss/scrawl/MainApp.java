@@ -51,12 +51,12 @@ public class MainApp extends GuiceApplication {
 
 		showMainLayout();
 
-		primaryStage.setTitle("Scrawl");
+		primaryStage.setTitle(Constants.TITLE);
 		primaryStage.show();
 		
 		editorManager.registerEditor(Constants.MANUSCRIPT_EDITOR, ManuscriptEditor.class);
 		
-		projectManager.loadProject();
+		projectManager.initialize();
 	}
 	
 	void showMainLayout() {

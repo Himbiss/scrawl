@@ -94,7 +94,7 @@ public final class MainLayoutController implements Initializable {
 	 */
 	@FXML
 	private void handleSaveAll() {
-		System.out.println("save all");
+		projectManager.saveProject();
 	}
 
 	/**
