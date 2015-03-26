@@ -1,6 +1,5 @@
-package de.himbiss.scrawl.model;
+package de.himbiss.scrawl.util;
 
-import javafx.scene.input.DataFormat;
 
 public class Constants {
 	public static final String MANUSCRIPT_EDITOR = "manuscript_editor";
@@ -14,12 +13,6 @@ public class Constants {
 	public static final String COPY_ITEM = "Copy";
 	public static final String PASTE_ITEM = "Paste";
 	public static final String DELETE_ITEM = "Delete";
-	
-	// clipboard data formats
-	public static final DataFormat PERSON_FORMAT = new DataFormat("obj/person");
-	public static final DataFormat LOCATION_FORMAT = new DataFormat("obj/location");
-	public static final DataFormat SCENE_FORMAT = new DataFormat("obj/scene");
-	public static final DataFormat OBJECT_FORMAT = new DataFormat("obj/object");
 	
 	// node types
 	public static final String FOLDER_NODE = "Folder";

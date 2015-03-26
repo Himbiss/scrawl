@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import de.himbiss.scrawl.model.Constants;
+import de.himbiss.scrawl.util.Constants;
 
 public class NodeFactory {
 
@@ -107,6 +107,26 @@ public class NodeFactory {
 		return createScene(generateUniqueIdentifier(Constants.SCENE_NODE, sceneMap.keySet()));
 	}
 	
+
+	public static void registerNode(Node<?> n) {
+		switch(n.getNodeType()) {
+		case SCENE:
+			sceneMap.put(n.getIdentifier(),(Scene) n);
+			break;
+		case LOCATION:
+			locationMap.remove(n.getIdentifier(),(Location) n);
+			break;
+		case PERSON:
+			personMap.remove(n.getIdentifier(),(Person) n);
+			break;
+		case OBJECT:
+			objectMap.remove(n.getIdentifier(),(Object) n);
+			break;
+		default:
+			break;
+		}
+	}
+	
 	public static void freeNode(String identifier, NodeType nodeType) {
 		switch(nodeType) {
 		case SCENE:
@@ -123,6 +143,22 @@ public class NodeFactory {
 			break;
 		default:
 			break;
+		}
+	}
+
+	public static String generateUniqueIdentifier(String pre,
+			NodeType nodeType) {
+		switch(nodeType) {
+		case SCENE:
+			return generateUniqueIdentifier(pre, sceneMap.keySet());
+		case LOCATION:
+			return generateUniqueIdentifier(pre, locationMap.keySet());
+		case PERSON:
+			return generateUniqueIdentifier(pre, personMap.keySet());
+		case OBJECT:
+			return generateUniqueIdentifier(pre, objectMap.keySet());
+		default:
+			return pre;
 		}
 	}
 }

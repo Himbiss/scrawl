@@ -16,7 +16,6 @@ import com.cathive.fx.guice.GuiceApplication;
 import com.cathive.fx.guice.GuiceFXMLLoader;
 
 import de.himbiss.scrawl.MainApp;
-import de.himbiss.scrawl.model.Constants;
 import de.himbiss.scrawl.model.editors.EditorManager;
 import de.himbiss.scrawl.model.project.Location;
 import de.himbiss.scrawl.model.project.Node;
@@ -25,6 +24,8 @@ import de.himbiss.scrawl.model.project.Person;
 import de.himbiss.scrawl.model.project.Project;
 import de.himbiss.scrawl.model.project.ProjectManager;
 import de.himbiss.scrawl.model.project.Scene;
+import de.himbiss.scrawl.util.Constants;
+import de.himbiss.scrawl.util.NodeHelper;
 
 @FXMLController(controllerId = "mainController")
 public final class MainLayoutController implements Initializable {
@@ -132,10 +133,10 @@ public final class MainLayoutController implements Initializable {
 		personsTree.showRootProperty().set(false);
 		objectsTree.showRootProperty().set(false);
 		
-		TreeContextMenu<Scene> scenesContextMenu = new TreeContextMenu<Scene>(scenesTree, Constants.SCENE_FORMAT, projectManager);
-		TreeContextMenu<Location> locationsContextMenu = new TreeContextMenu<Location>(locationsTree, Constants.LOCATION_FORMAT, projectManager);
-		TreeContextMenu<Person> personsContextMenu = new TreeContextMenu<Person>(personsTree, Constants.PERSON_FORMAT, projectManager);
-		TreeContextMenu<Object> objectsContextMenu = new TreeContextMenu<Object>(objectsTree, Constants.OBJECT_FORMAT, projectManager);
+		TreeContextMenu<Scene> scenesContextMenu = new TreeContextMenu<Scene>(scenesTree, NodeHelper.SCENE_FORMAT, projectManager);
+		TreeContextMenu<Location> locationsContextMenu = new TreeContextMenu<Location>(locationsTree, NodeHelper.LOCATION_FORMAT, projectManager);
+		TreeContextMenu<Person> personsContextMenu = new TreeContextMenu<Person>(personsTree, NodeHelper.PERSON_FORMAT, projectManager);
+		TreeContextMenu<Object> objectsContextMenu = new TreeContextMenu<Object>(objectsTree, NodeHelper.OBJECT_FORMAT, projectManager);
 		
 		scenesTree.setContextMenu(scenesContextMenu);
 		locationsTree.setContextMenu(locationsContextMenu);

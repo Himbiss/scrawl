@@ -1,38 +1,37 @@
 package de.himbiss.scrawl.model.project;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-
 
 public class Project extends Folder<Node<?>> {
 
-	private ObjectProperty<Folder<Scene>> scenes;
-	private ObjectProperty<Folder<Person>> persons;
-	private ObjectProperty<Folder<Object>> objects;
-	private ObjectProperty<Folder<Location>> locations;
+	private static final long serialVersionUID = 5901512498873443281L;
+	
+	private Folder<Scene> scenes;
+	private Folder<Person> persons;
+	private Folder<Object> objects;
+	private Folder<Location> locations;
 	
 	public Project(String identifier) {
 		super(identifier);
-		scenes = new SimpleObjectProperty<>(new Folder<>("Scenes"));
-		persons = new SimpleObjectProperty<>(new Folder<>("Persons"));
-		objects = new SimpleObjectProperty<>(new Folder<>("Objects"));
-		locations = new SimpleObjectProperty<>(new Folder<>("Locations"));
+		scenes = new Folder<>("Scenes");
+		persons = new Folder<>("Persons");
+		objects = new Folder<>("Objects");
+		locations = new Folder<>("Locations");
 	}
 	
 	public Folder<Location> getLocations() {
-		return locations.getValue();
+		return locations;
 	}
 	
 	public Folder<Scene> getScenes() {
-		return scenes.getValue();
+		return scenes;
 	}
 	
 	public Folder<Person> getPersons() {
-		return persons.getValue();
+		return persons;
 	}
 	
 	public Folder<Object> getObjects() {
-		return objects.getValue();
+		return objects;
 	}
 
 	@Override

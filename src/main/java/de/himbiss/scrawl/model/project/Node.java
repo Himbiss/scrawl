@@ -1,38 +1,37 @@
 package de.himbiss.scrawl.model.project;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import java.io.Serializable;
 
+public abstract class Node<T> implements Serializable {
 
-
-public abstract class Node<T> {
-
-	private StringProperty description;
-	private StringProperty identifier;
+	private static final long serialVersionUID = -748448656969685107L;
+	
+	private String description;
+	private String identifier;
 	
 	private Folder<T> parent;
 
 	private NodeType nodeType;
 	
 	public Node(String identifier, NodeType nodeType) {
-		this.identifier = new SimpleStringProperty(identifier);
-		this.description = new SimpleStringProperty();
+		this.identifier =identifier;
+		this.description = "";
 		this.nodeType = nodeType;
 	}
 	
-	public StringProperty getDescription() {
+	public String getDescription() {
 		return description;
 	}
 	
-	public void setDescription(StringProperty description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 	
-	public StringProperty getIdentifier() {
+	public String getIdentifier() {
 		return identifier;
 	}
 	
-	public void setIdentifier(StringProperty identifier) {
+	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
 	}
 	
@@ -44,7 +43,7 @@ public abstract class Node<T> {
 	
 	@Override
 	public String toString() {
-		return getIdentifier().getValue();
+		return getIdentifier();
 	}
 
 	public Folder<T> getParent() {

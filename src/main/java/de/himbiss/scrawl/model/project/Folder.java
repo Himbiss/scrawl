@@ -1,17 +1,17 @@
 package de.himbiss.scrawl.model.project;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class Folder <T> extends Node<T> {
 
-	private ObservableList<Node<T>> components;
+	private static final long serialVersionUID = 2807640596345882562L;
+	
+	private List<Node<T>> components;
 	
 	public Folder(String identifier) {
 		super(identifier, NodeType.FOLDER);
-		components = FXCollections.observableArrayList();
+		components = new ArrayList<Node<T>>();
 	}
 	
 	public void add(Node<T> component) {

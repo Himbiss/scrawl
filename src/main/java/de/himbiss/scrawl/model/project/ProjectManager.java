@@ -3,6 +3,10 @@ package de.himbiss.scrawl.model.project;
 import java.io.File;
 import java.util.prefs.Preferences;
 
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.DataFormat;
+
 import javax.inject.Inject;
 
 import org.apache.logging.log4j.Level;
@@ -10,7 +14,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.himbiss.scrawl.MainApp;
-import de.himbiss.scrawl.model.Constants;
+import de.himbiss.scrawl.util.Constants;
+import de.himbiss.scrawl.util.NodeHelper;
 import de.himbiss.scrawl.view.MainLayoutController;
 
 public class ProjectManager implements ProjectController {
@@ -82,23 +87,32 @@ public class ProjectManager implements ProjectController {
 	@Override
 	public <T> void handleDeleteNode(Node<T> n) {
 		n.getParent().remove(n);
-		NodeFactory.freeNode(n.getIdentifier().getValue(), n.getNodeType());
+		NodeFactory.freeNode(n.getIdentifier(), n.getNodeType());
 		mainController.setProject(getCurrentProject());
 	}
 
 	@Override
 	public <T> void handleCopyNode(Node<T> n) {
-		// TODO Auto-generated method stub
-		System.out.println("Copy Node");
-
-		mainController.setProject(getCurrentProject());
+		Clipboard clipboard = Clipboard.getSystemClipboard();
+		ClipboardContent content = new ClipboardContent();
+		content.put(NodeHelper.getDataFormat(n.getNodeType()), n);
+		clipboard.setContent(content);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> void handlePasteNode(Node<T> n) {
-		// TODO Auto-generated method stub
-		System.out.println("Paste Node");
-
+		DataFormat fmt = NodeHelper.getDataFormat(n.getNodeType());
+		Clipboard clipboard = Clipboard.getSystemClipboard();
+		if(clipboard.hasContent(fmt)) {
+			Node<?> content = (Node<?>) clipboard.getContent(fmt);
+			if(content.getNodeType().equals(n.getNodeType())) {
+				Node<T> paste = (Node<T>) content;
+				paste.setIdentifier(NodeFactory.generateUniqueIdentifier(paste.getIdentifier(),paste.getNodeType()));
+				NodeFactory.registerNode(paste);
+				NodeHelper.getNextFolder(n).add(paste);
+			}
+		}
 		mainController.setProject(getCurrentProject());
 	}
 	

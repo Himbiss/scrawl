@@ -14,8 +14,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.fxmisc.richtext.InlineStyleTextArea;
 
-import de.himbiss.scrawl.model.Constants;
 import de.himbiss.scrawl.model.editors.IEditor;
+import de.himbiss.scrawl.util.Constants;
 
 public class ManuscriptEditor implements IEditor {
 
