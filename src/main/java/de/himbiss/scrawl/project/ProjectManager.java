@@ -1,4 +1,4 @@
-package de.himbiss.scrawl.model.project;
+package de.himbiss.scrawl.project;
 
 import java.util.prefs.Preferences;
 
@@ -13,9 +13,9 @@ import org.apache.logging.log4j.Logger;
 
 import de.himbiss.scrawl.MainApp;
 import de.himbiss.scrawl.dao.IProjectDAO;
+import de.himbiss.scrawl.gui.MainLayoutController;
 import de.himbiss.scrawl.util.Constants;
 import de.himbiss.scrawl.util.NodeHelper;
-import de.himbiss.scrawl.view.MainLayoutController;
 
 public class ProjectManager implements ProjectController {
 	

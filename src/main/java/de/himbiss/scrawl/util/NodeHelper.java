@@ -1,10 +1,10 @@
 package de.himbiss.scrawl.util;
 
 import javafx.scene.input.DataFormat;
-import de.himbiss.scrawl.model.project.Folder;
-import de.himbiss.scrawl.model.project.Node;
-import de.himbiss.scrawl.model.project.NodeFactory;
-import de.himbiss.scrawl.model.project.NodeType;
+import de.himbiss.scrawl.project.Folder;
+import de.himbiss.scrawl.project.Node;
+import de.himbiss.scrawl.project.NodeFactory;
+import de.himbiss.scrawl.project.NodeType;
 
 public class NodeHelper {
 	// clipboard data formats

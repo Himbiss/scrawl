@@ -4,9 +4,9 @@ import com.google.inject.AbstractModule;
 
 import de.himbiss.scrawl.dao.IProjectDAO;
 import de.himbiss.scrawl.dao.XMLProjectDAO;
-import de.himbiss.scrawl.model.editors.EditorManager;
-import de.himbiss.scrawl.model.project.ProjectManager;
-import de.himbiss.scrawl.view.MainLayoutController;
+import de.himbiss.scrawl.editors.EditorManager;
+import de.himbiss.scrawl.gui.MainLayoutController;
+import de.himbiss.scrawl.project.ProjectManager;
 
 public class MainModule extends AbstractModule {
 

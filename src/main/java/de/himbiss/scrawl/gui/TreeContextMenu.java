@@ -1,4 +1,4 @@
-package de.himbiss.scrawl.view;
+package de.himbiss.scrawl.gui;
 
 
 import javafx.beans.property.Property;
@@ -11,8 +11,8 @@ import javafx.scene.control.TreeView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.DataFormat;
-import de.himbiss.scrawl.model.project.Node;
-import de.himbiss.scrawl.model.project.ProjectController;
+import de.himbiss.scrawl.project.Node;
+import de.himbiss.scrawl.project.ProjectController;
 import de.himbiss.scrawl.util.Constants;
 
 public class TreeContextMenu <T> extends ContextMenu {

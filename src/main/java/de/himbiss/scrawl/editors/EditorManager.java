@@ -1,4 +1,4 @@
-package de.himbiss.scrawl.model.editors;
+package de.himbiss.scrawl.editors;
 
 import java.io.File;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.himbiss.scrawl.view.MainLayoutController;
+import de.himbiss.scrawl.gui.MainLayoutController;
 
 public class EditorManager {
 	private static Logger logger = LogManager.getLogger(EditorManager.class);

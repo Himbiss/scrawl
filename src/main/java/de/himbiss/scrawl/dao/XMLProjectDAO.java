@@ -21,7 +21,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.himbiss.scrawl.MainApp;
-import de.himbiss.scrawl.model.project.Project;
+import de.himbiss.scrawl.project.Project;
 import de.himbiss.scrawl.util.Constants;
 import de.himbiss.scrawl.util.NodeHelper;
 

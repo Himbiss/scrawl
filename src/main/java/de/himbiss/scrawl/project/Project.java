@@ -1,4 +1,4 @@
-package de.himbiss.scrawl.model.project;
+package de.himbiss.scrawl.project;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;

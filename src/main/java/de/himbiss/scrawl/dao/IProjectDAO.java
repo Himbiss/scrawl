@@ -2,7 +2,7 @@ package de.himbiss.scrawl.dao;
 
 import java.util.List;
 
-import de.himbiss.scrawl.model.project.Project;
+import de.himbiss.scrawl.project.Project;
 
 /**
  * DAO Interface for accessing projects

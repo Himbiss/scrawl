@@ -1,4 +1,4 @@
-package de.himbiss.scrawl.model.editors;
+package de.himbiss.scrawl.editors;
 
 import java.io.File;
 

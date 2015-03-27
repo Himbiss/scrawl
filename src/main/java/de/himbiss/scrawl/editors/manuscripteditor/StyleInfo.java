@@ -1,4 +1,4 @@
-package de.himbiss.scrawl.model.editors.manuscripteditor;
+package de.himbiss.scrawl.editors.manuscripteditor;
 
 import java.util.Optional;
 

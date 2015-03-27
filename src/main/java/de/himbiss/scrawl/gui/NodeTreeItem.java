@@ -1,12 +1,12 @@
-package de.himbiss.scrawl.view;
+package de.himbiss.scrawl.gui;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
-import de.himbiss.scrawl.model.project.Folder;
-import de.himbiss.scrawl.model.project.Node;
+import de.himbiss.scrawl.project.Folder;
+import de.himbiss.scrawl.project.Node;
 
 public class NodeTreeItem<T> extends TreeItem<Node<T>> {
 	

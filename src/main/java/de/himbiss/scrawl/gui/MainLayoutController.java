@@ -1,4 +1,4 @@
-package de.himbiss.scrawl.view;
+package de.himbiss.scrawl.gui;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,13 +14,13 @@ import javax.inject.Inject;
 import com.cathive.fx.guice.FXMLController;
 
 import de.himbiss.scrawl.MainApp;
-import de.himbiss.scrawl.model.project.Location;
-import de.himbiss.scrawl.model.project.Node;
-import de.himbiss.scrawl.model.project.Object;
-import de.himbiss.scrawl.model.project.Person;
-import de.himbiss.scrawl.model.project.Project;
-import de.himbiss.scrawl.model.project.ProjectManager;
-import de.himbiss.scrawl.model.project.Scene;
+import de.himbiss.scrawl.project.Location;
+import de.himbiss.scrawl.project.Node;
+import de.himbiss.scrawl.project.Object;
+import de.himbiss.scrawl.project.Person;
+import de.himbiss.scrawl.project.Project;
+import de.himbiss.scrawl.project.ProjectManager;
+import de.himbiss.scrawl.project.Scene;
 import de.himbiss.scrawl.util.NodeHelper;
 
 @FXMLController(controllerId = "mainController")

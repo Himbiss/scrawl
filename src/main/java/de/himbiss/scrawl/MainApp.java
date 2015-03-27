@@ -16,11 +16,11 @@ import com.cathive.fx.guice.GuiceFXMLLoader;
 import com.cathive.fx.guice.GuiceFXMLLoader.Result;
 import com.google.inject.Module;
 
-import de.himbiss.scrawl.model.editors.EditorManager;
-import de.himbiss.scrawl.model.editors.manuscripteditor.ManuscriptEditor;
-import de.himbiss.scrawl.model.project.ProjectManager;
+import de.himbiss.scrawl.editors.EditorManager;
+import de.himbiss.scrawl.editors.manuscripteditor.ManuscriptEditor;
+import de.himbiss.scrawl.gui.MainLayoutController;
+import de.himbiss.scrawl.project.ProjectManager;
 import de.himbiss.scrawl.util.Constants;
-import de.himbiss.scrawl.view.MainLayoutController;
 
 public class MainApp extends GuiceApplication {
 

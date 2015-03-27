@@ -1,4 +1,4 @@
-package de.himbiss.scrawl.model.project;
+package de.himbiss.scrawl.project;
 
 import java.io.Serializable;
 
