@@ -23,11 +23,15 @@ public class Constants {
 	public static final String OBJECT_NODE = "Object";
 	public static final String PERSON_NODE = "Person";
 	public static final String PROJECT_NODE = "Project";
-	public static final String NEW_FOLDER_ITEM = "New Folder";
 
 	public static final String FILE_EXTENSION = ".xml";
 
-	public static final String NEW_PROJECT = "NewProject";
-
+	public static final String NEW_PROJECT = "New Project";
+	public static final String NEW_LOCATION = "New Location";
+	public static final String NEW_PERSON = "New Person";
+	public static final String NEW_SCENE = "New Scene";
+	public static final String NEW_OBJECT = "New Object";
+	public static final String NEW_FOLDER = "New Folder";
+	
 	public static final String TITLE = "Scrawl";
 }

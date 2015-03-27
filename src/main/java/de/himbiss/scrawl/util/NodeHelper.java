@@ -3,9 +3,8 @@ package de.himbiss.scrawl.util;
 import javafx.scene.input.DataFormat;
 import de.himbiss.scrawl.model.project.Folder;
 import de.himbiss.scrawl.model.project.Node;
+import de.himbiss.scrawl.model.project.NodeFactory;
 import de.himbiss.scrawl.model.project.NodeType;
-import de.himbiss.scrawl.model.project.Project;
-import de.himbiss.scrawl.model.project.Scene;
 
 public class NodeHelper {
 	// clipboard data formats
@@ -34,5 +33,21 @@ public class NodeHelper {
 		if(node.isFolder())
 			return (Folder<T>)node;
 		return node.getParent();
+	}
+	
+	public static <T> void fixParent(Node<T> node) {
+		if(node.isFolder()) {
+			Folder<T> folder = (Folder<T>) node;
+			folder.getComponents().stream().forEach( (n) -> { n.setParent(folder); fixParent(n); } );
+		}
+	}
+	
+	public static <T> void registerNodes(Node<T> node) {
+		if(node.isFolder()) {
+			Folder<T> folder = (Folder<T>) node;
+			folder.getComponents().stream().forEach( (n) -> { registerNodes(n); } );
+		} else {
+			NodeFactory.registerNode(node);
+		}
 	}
 }

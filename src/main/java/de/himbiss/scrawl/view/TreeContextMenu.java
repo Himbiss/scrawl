@@ -33,7 +33,7 @@ public class TreeContextMenu <T> extends ContextMenu {
 	public TreeContextMenu(TreeView<Node<T>> treeView, DataFormat fmt, ProjectController projectController) {
 		this.treeView = treeView;
 		newItem = new MenuItem(Constants.NEW_ITEM);
-		newFolderItem = new MenuItem(Constants.NEW_FOLDER_ITEM);
+		newFolderItem = new MenuItem(Constants.NEW_FOLDER);
 		copyItem = new MenuItem(Constants.COPY_ITEM);
 		pasteItem = new MenuItem(Constants.PASTE_ITEM);
 		deleteItem = new MenuItem(Constants.DELETE_ITEM);

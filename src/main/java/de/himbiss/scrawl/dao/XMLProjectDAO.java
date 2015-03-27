@@ -23,6 +23,7 @@ import org.apache.logging.log4j.Logger;
 import de.himbiss.scrawl.MainApp;
 import de.himbiss.scrawl.model.project.Project;
 import de.himbiss.scrawl.util.Constants;
+import de.himbiss.scrawl.util.NodeHelper;
 
 public class XMLProjectDAO implements IProjectDAO {
 	
@@ -55,6 +56,14 @@ public class XMLProjectDAO implements IProjectDAO {
 			String path = workingDirectory + File.separator + name + Constants.FILE_EXTENSION;
 			logger.log(Level.INFO, "Loading project " + name + " from "+path);
 		    project = (Project) um.unmarshal(new FileReader(path));
+		    NodeHelper.registerNodes(project.getScenes());
+		    NodeHelper.registerNodes(project.getObjects());
+		    NodeHelper.registerNodes(project.getLocations());
+		    NodeHelper.registerNodes(project.getPersons());
+		    NodeHelper.fixParent(project.getScenes());
+		    NodeHelper.fixParent(project.getObjects());
+		    NodeHelper.fixParent(project.getLocations());
+		    NodeHelper.fixParent(project.getPersons());
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {

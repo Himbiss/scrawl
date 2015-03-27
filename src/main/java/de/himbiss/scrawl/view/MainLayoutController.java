@@ -12,11 +12,8 @@ import javafx.scene.control.TreeView;
 import javax.inject.Inject;
 
 import com.cathive.fx.guice.FXMLController;
-import com.cathive.fx.guice.GuiceApplication;
-import com.cathive.fx.guice.GuiceFXMLLoader;
 
 import de.himbiss.scrawl.MainApp;
-import de.himbiss.scrawl.model.editors.EditorManager;
 import de.himbiss.scrawl.model.project.Location;
 import de.himbiss.scrawl.model.project.Node;
 import de.himbiss.scrawl.model.project.Object;
@@ -24,7 +21,6 @@ import de.himbiss.scrawl.model.project.Person;
 import de.himbiss.scrawl.model.project.Project;
 import de.himbiss.scrawl.model.project.ProjectManager;
 import de.himbiss.scrawl.model.project.Scene;
-import de.himbiss.scrawl.util.Constants;
 import de.himbiss.scrawl.util.NodeHelper;
 
 @FXMLController(controllerId = "mainController")
@@ -46,9 +42,6 @@ public final class MainLayoutController implements Initializable {
 
 	@FXML
 	private TabPane tabPane;
-
-	@Inject
-	private EditorManager editorManager;
 	
 	@Inject
 	private ProjectManager projectManager;

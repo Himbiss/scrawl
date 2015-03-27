@@ -4,6 +4,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import de.himbiss.scrawl.util.Constants;
+
 @XmlRootElement(name = "project")
 public class Project extends Folder<Node<?>> {
 
@@ -15,6 +17,7 @@ public class Project extends Folder<Node<?>> {
 	private Folder<Location> locations;
 	
 	public Project() {
+		super(Constants.NEW_PROJECT, null);
 		// for jaxb / serialization
 	}
 	
@@ -50,6 +53,22 @@ public class Project extends Folder<Node<?>> {
 	@Override
 	public String getIdentifier() {
 		return super.getIdentifier();
+	}
+
+	public void setScenes(Folder<Scene> scenes) {
+		this.scenes = scenes;
+	}
+
+	public void setPersons(Folder<Person> persons) {
+		this.persons = persons;
+	}
+
+	public void setObjects(Folder<Object> objects) {
+		this.objects = objects;
+	}
+
+	public void setLocations(Folder<Location> locations) {
+		this.locations = locations;
 	}
 
 	@Override

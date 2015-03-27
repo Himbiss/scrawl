@@ -4,10 +4,12 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 
 @XmlSeeAlso({Folder.class, Location.class, Person.class, Object.class, Scene.class})
+@XmlRootElement(name = "node")
 public abstract class Node<T> implements Serializable {
 
 	private static final long serialVersionUID = -748448656969685107L;
@@ -63,6 +65,10 @@ public abstract class Node<T> implements Serializable {
 	@XmlAttribute
 	public NodeType getNodeType() {
 		return nodeType;
+	}
+
+	public void setNodeType(NodeType nodeType) {
+		this.nodeType = nodeType;
 	}
 
 	@XmlAttribute(name = "is_folder")

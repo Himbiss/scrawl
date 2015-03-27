@@ -8,8 +8,10 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import de.himbiss.scrawl.util.Constants;
+
 @XmlType(name = "folder")
-@XmlRootElement
+@XmlRootElement(name = "folder")
 public class Folder <T> extends Node<T> {
 
 	private static final long serialVersionUID = 2807640596345882562L;
@@ -25,9 +27,9 @@ public class Folder <T> extends Node<T> {
 		super(identifier, nodeType, isDeletable);
 		components = new ArrayList<Node<T>>();
 	}
-	
+
 	public Folder() {
-		super("New Folder", null);
+		super(Constants.NEW_FOLDER, null);
 		components = new ArrayList<Node<T>>();
 	}
 
@@ -41,10 +43,14 @@ public class Folder <T> extends Node<T> {
 		components.remove(component);
 	}
 	
-	@XmlElementWrapper
-	@XmlElement(name = "node")
+	@XmlElementWrapper(name = "content")
+	@XmlElement
 	public List<Node<T>> getComponents() {
 		return components;
+	}
+	
+	public void setComponents(List<Node<T>> components) {
+		this.components = components;
 	}
 	
 	@Override

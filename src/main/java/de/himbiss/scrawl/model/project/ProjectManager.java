@@ -61,9 +61,11 @@ public class ProjectManager implements ProjectController {
 	@Override
 	public <T> void handleNewNode(Node<T> n) {
 		Folder<T> folder = n.isFolder() ? (Folder<T>)n : n.getParent();
-		Node<?> uniqueNode = NodeFactory.createUniqueNode(n.getNodeType());
-		folder.add((Node<T>) uniqueNode);
-		mainController.setProject(getProject());
+		if(folder != null) {
+			Node<?> uniqueNode = NodeFactory.createUniqueNode(n.getNodeType());
+			folder.add((Node<T>) uniqueNode);
+			mainController.setProject(getProject());
+		}
 	}
 
 	@Override

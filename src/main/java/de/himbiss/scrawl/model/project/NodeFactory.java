@@ -62,29 +62,27 @@ public class NodeFactory {
 	}
 	
 	public static <T> Node<?> createUniqueNode(NodeType nodeType) {
-		switch(nodeType) {
-		case SCENE:
-			return createUniqueScene();
-		case LOCATION:
-			return createUniqueLocation();
-		case PERSON:
-			return createUniquePerson();
-		case OBJECT:
-			return createUniqueObject();
-		default:
-			return null;
+		if(nodeType != null) {
+			switch(nodeType) {
+			case SCENE:
+				return createUniqueScene();
+			case LOCATION:
+				return createUniqueLocation();
+			case PERSON:
+				return createUniquePerson();
+			case OBJECT:
+				return createUniqueObject();
+			}
 		}
+		return null;
 	}
 	
 	public static String generateUniqueIdentifier(String pre, Set<String> keySet) {
-		String identifier = pre;
 		int index = 0;
-		pre.replaceAll("/[0-9]", "");
-		while(keySet.contains(identifier)) {
-			identifier += String.valueOf(index);
+		while(keySet.contains(pre+index)) {
 			index++;
 		}
-		return identifier;
+		return pre+index;
 	}
 
 	public static Location createUniqueLocation() {
@@ -105,21 +103,23 @@ public class NodeFactory {
 	
 
 	public static void registerNode(Node<?> n) {
+		if(n != null) {
 		switch(n.getNodeType()) {
-		case SCENE:
-			sceneMap.put(n.getIdentifier(),(Scene) n);
-			break;
-		case LOCATION:
-			locationMap.remove(n.getIdentifier(),(Location) n);
-			break;
-		case PERSON:
-			personMap.remove(n.getIdentifier(),(Person) n);
-			break;
-		case OBJECT:
-			objectMap.remove(n.getIdentifier(),(Object) n);
-			break;
-		default:
-			break;
+			case SCENE:
+				sceneMap.put(n.getIdentifier(),(Scene) n);
+				break;
+			case LOCATION:
+				locationMap.put(n.getIdentifier(),(Location) n);
+				break;
+			case PERSON:
+				personMap.put(n.getIdentifier(),(Person) n);
+				break;
+			case OBJECT:
+				objectMap.put(n.getIdentifier(),(Object) n);
+				break;
+			default:
+				break;
+			}
 		}
 	}
 	
