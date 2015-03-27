@@ -16,6 +16,7 @@ public abstract class Node<T> implements Serializable {
 	
 	private String description;
 	private String identifier;
+	private String content;
 	
 	private boolean isDeletable;
 	private boolean isExpanded;
@@ -27,6 +28,7 @@ public abstract class Node<T> implements Serializable {
 	public Node(String identifier, NodeType nodeType) {
 		this.identifier =identifier;
 		this.description = "";
+		this.content = "";
 		this.nodeType = nodeType;
 		setDeletable(true);
 		setExpanded(false);
@@ -35,6 +37,7 @@ public abstract class Node<T> implements Serializable {
 	public Node(String identifier, NodeType nodeType, boolean isDeletable) {
 		this.identifier =identifier;
 		this.description = "";
+		this.content = "";
 		this.nodeType = nodeType;
 		setDeletable(isDeletable);
 		setExpanded(false);
@@ -104,5 +107,25 @@ public abstract class Node<T> implements Serializable {
 
 	public void setExpanded(boolean isExpanded) {
 		this.isExpanded = isExpanded;
+	}
+
+	@XmlElement(name = "content")
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+	
+	@Override
+	public boolean equals(java.lang.Object obj) {
+		if(obj == null)
+			return false;
+		if(obj instanceof Node<?>) {
+			Node<?> node = (Node<?>) obj;
+			return node.getNodeType().equals(getNodeType()) && node.getIdentifier().equals(getIdentifier());
+		}
+		return super.equals(obj);
 	}
 }

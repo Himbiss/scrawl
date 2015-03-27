@@ -3,17 +3,20 @@ package de.himbiss.scrawl.gui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.MouseEvent;
 
 import javax.inject.Inject;
 
 import com.cathive.fx.guice.FXMLController;
 
 import de.himbiss.scrawl.MainApp;
+import de.himbiss.scrawl.editors.EditorManager;
 import de.himbiss.scrawl.project.Location;
 import de.himbiss.scrawl.project.Node;
 import de.himbiss.scrawl.project.Object;
@@ -46,6 +49,9 @@ public final class MainLayoutController implements Initializable {
 	@Inject
 	private ProjectManager projectManager;
 	
+	@Inject
+	private EditorManager editorManager;
+	
 	public boolean openNewTab(Tab tab) {
 		return tabPane.getTabs().add(tab);
 	}
@@ -55,6 +61,8 @@ public final class MainLayoutController implements Initializable {
 	 */
 	@FXML
 	private void handleExit() {
+		editorManager.saveAll();
+		projectManager.saveProject();
 		System.exit(0);
 	}
 
@@ -79,7 +87,7 @@ public final class MainLayoutController implements Initializable {
 	 */
 	@FXML
 	private void handleSaveCurrent() {
-		System.out.println("save current");
+		editorManager.saveTab(tabPane.getSelectionModel().getSelectedItem());
 	}
 
 	/**
@@ -87,7 +95,7 @@ public final class MainLayoutController implements Initializable {
 	 */
 	@FXML
 	private void handleSaveAll() {
-		projectManager.saveProject();
+		editorManager.saveAll();
 	}
 
 	/**
@@ -130,5 +138,30 @@ public final class MainLayoutController implements Initializable {
 		locationsTree.setContextMenu(locationsContextMenu);
 		personsTree.setContextMenu(personsContextMenu);
 		objectsTree.setContextMenu(objectsContextMenu);
+		
+		scenesTree.setOnMouseClicked(new MouseDoubleclickHandler<>(scenesTree, editorManager));
+		locationsTree.setOnMouseClicked(new MouseDoubleclickHandler<>(locationsTree, editorManager));
+		personsTree.setOnMouseClicked(new MouseDoubleclickHandler<>(personsTree, editorManager));
+		objectsTree.setOnMouseClicked(new MouseDoubleclickHandler<>(objectsTree, editorManager));
 	}
+	
+	
+}
+
+class MouseDoubleclickHandler <T extends Node<T>> implements EventHandler<MouseEvent> {
+
+	private TreeView<Node<T>> treeView;
+	private EditorManager editorManager;
+	
+	public MouseDoubleclickHandler(TreeView<Node<T>> treeView, EditorManager editorManager) {
+		this.treeView = treeView;
+		this.editorManager = editorManager;
+	}
+	
+	@Override
+	public void handle(MouseEvent event) {
+		if(event.getClickCount() > 1)
+			editorManager.openPreferredEditor(treeView.getSelectionModel().getSelectedItem().getValue());
+	}
+	
 }

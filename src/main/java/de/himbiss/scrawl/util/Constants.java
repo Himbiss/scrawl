@@ -34,4 +34,6 @@ public class Constants {
 	public static final String NEW_FOLDER = "New Folder";
 	
 	public static final String TITLE = "Scrawl";
+
+	public static String IS_DIRTY = "*";
 }

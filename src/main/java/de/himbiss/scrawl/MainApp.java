@@ -42,7 +42,7 @@ public class MainApp extends GuiceApplication {
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
 
-		Parent root = fxmlLoader.load(getClass().getResource("view/MainLayout.fxml")).getRoot();
+		Parent root = fxmlLoader.load(getClass().getResource("gui/MainLayout.fxml")).getRoot();
 
 		Scene scene = new Scene(root);
 		scene.setRoot(root);
@@ -62,7 +62,7 @@ public class MainApp extends GuiceApplication {
 	void showMainLayout() {
 		try {
 			// Load root layout from fxml file.
-			Result result = fxmlLoader.load(MainApp.class.getResource("view/MainLayout.fxml"));
+			Result result = fxmlLoader.load(MainApp.class.getResource("gui/MainLayout.fxml"));
 
 			BorderPane rootPane = (BorderPane) result.getRoot();
 

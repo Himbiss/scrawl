@@ -43,7 +43,7 @@ public class Folder <T> extends Node<T> {
 		components.remove(component);
 	}
 	
-	@XmlElementWrapper(name = "content")
+	@XmlElementWrapper(name = "components")
 	@XmlElement
 	public List<Node<T>> getComponents() {
 		return components;
