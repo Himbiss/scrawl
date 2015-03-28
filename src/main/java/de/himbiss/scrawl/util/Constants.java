@@ -35,5 +35,7 @@ public class Constants {
 	
 	public static final String TITLE = "Scrawl";
 
+	public static final String CSS_MANUSCRIPT_EDITOR = "css/manuscript_editor.css";
+
 	public static String IS_DIRTY = "*";
 }

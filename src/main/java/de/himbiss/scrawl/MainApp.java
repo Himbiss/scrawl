@@ -68,6 +68,7 @@ public class MainApp extends GuiceApplication {
 
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(rootPane);
+			scene.getStylesheets().add(MainApp.class.getClassLoader().getResource(Constants.CSS_MANUSCRIPT_EDITOR).toExternalForm());
 			primaryStage.setScene(scene);
 
 			rootController.setMainApp(this);
