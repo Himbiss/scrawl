@@ -141,4 +141,32 @@ public class StyleInfo {
 		return new StyleInfo(bold, italic, underline, strikethrough, fontSize,
 				fontFamily, Optional.of(textColor));
 	}
+
+	public boolean getBold() {
+		return bold.isPresent() ? bold.get() : false;
+	}
+
+	public boolean getItalic() {
+		return italic.isPresent() ? italic.get() : false;
+	}
+
+	public boolean getUnderline() {
+		return underline.isPresent() ? underline.get() : false;
+	}
+
+	public boolean getStrikethrough() {
+		return strikethrough.isPresent() ? strikethrough.get() : false;
+	}
+
+	public int getFontSize() {
+		return fontSize.isPresent() ? fontSize.get() : 20;
+	}
+
+	public String getFontFamily() {
+		return fontFamily.isPresent() ? fontFamily.get() : "Arial";
+	}
+
+	public Color getTextColor() {
+		return textColor.isPresent() ? textColor.get() : Color.BLACK;
+	}
 }

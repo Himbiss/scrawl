@@ -1,5 +1,7 @@
 package de.himbiss.scrawl.editors.manuscripteditor;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.function.Function;
 
 import javafx.beans.binding.Bindings;
@@ -22,13 +24,23 @@ import javax.inject.Inject;
 
 import org.fxmisc.richtext.InlineStyleTextArea;
 import org.fxmisc.richtext.StyleSpans;
+import org.fxmisc.richtext.StyledDocument;
 import org.reactfx.SuspendableNo;
+
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.rtf.RtfWriter2;
+import com.rtfparserkit.parser.IRtfSource;
+import com.rtfparserkit.parser.RtfStringSource;
+import com.rtfparserkit.parser.standard.StandardRtfParser;
 
 import de.himbiss.scrawl.editors.EditorManager;
 import de.himbiss.scrawl.editors.NodeEditor;
 import de.himbiss.scrawl.project.Node;
 import de.himbiss.scrawl.project.NodeType;
 import de.himbiss.scrawl.util.Constants;
+import de.himbiss.scrawl.util.StyleInfoHelper;
 
 public class ManuscriptEditor extends NodeEditor {
 
@@ -38,6 +50,7 @@ public class ManuscriptEditor extends NodeEditor {
 	private Node<?> node;
 	private final SuspendableNo updatingToolbar = new SuspendableNo();
 
+	
 	private final InlineStyleTextArea<StyleInfo> area = new InlineStyleTextArea<StyleInfo>(
 			StyleInfo.EMPTY.updateFontSize(12).updateFontFamily("Serif")
 					.updateTextColor(Color.BLACK), style -> style.toCss());
@@ -52,7 +65,6 @@ public class ManuscriptEditor extends NodeEditor {
 		AnchorPane.setBottomAnchor(area, 0d);
 		AnchorPane.setRightAnchor(area, 0d);
 		AnchorPane.setLeftAnchor(area, 0d);
-		area.replaceText(node.getContent());
 		area.onKeyPressedProperty().setValue((e) -> {
 			if (e.isControlDown() && e.getCode() == KeyCode.S) {
 				save();
@@ -243,6 +255,16 @@ public class ManuscriptEditor extends NodeEditor {
 	@Override
 	public void initialize(Node<?> node) {
 		this.node = node;
+		
+		IRtfSource src = new RtfStringSource(node.getContent());
+		
+		StandardRtfParser parser = new StandardRtfParser();
+		
+		try {
+			parser.parse(src, new RtfListener(area));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -257,7 +279,41 @@ public class ManuscriptEditor extends NodeEditor {
 
 	@Override
 	public void save() {
-		node.setContent(area.getText());
+		StyledDocument<StyleInfo> doc = area.getDocument();
+		 // Create Document object
+        Document document = new Document();
+        String rtfStr = "";
+        
+        try (ByteArrayOutputStream stream = new ByteArrayOutputStream();){
+
+            RtfWriter2.getInstance(document, stream);
+            
+            // open the document object
+            document.open();
+            
+            for(org.fxmisc.richtext.Paragraph<StyleInfo> pa : doc.getParagraphs()) {
+            	Paragraph newPar = new Paragraph();
+            	pa.getSegments().stream().forEach( (t) -> {
+                	try {
+                		Chunk ch = new Chunk(t.toString());
+                		ch.setFont(StyleInfoHelper.toFont(t.getStyle()));
+                		newPar.add(ch);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+            	}); 
+				document.add(newPar);
+            }
+            
+            //close the document
+            document.close();
+            rtfStr = new String(stream.toByteArray());
+        }
+        catch(Exception e) {
+        	e.printStackTrace();
+        }
+
+		node.setContent(rtfStr);
 		setClean();
 	}
 

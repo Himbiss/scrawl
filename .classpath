@@ -28,5 +28,15 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/rtfparserkit.jar"/>
+	<classpathentry kind="lib" path="/home/vincent/.m2/repository/org/fxmisc/richtext/richtextfx/0.6.3/richtextfx-0.6.3.jar" sourcepath="/home/vincent/.m2/repository/org/fxmisc/richtext/richtextfx/0.6.3/richtextfx-0.6.3-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="org.fxmisc.richtext"/>
+			<attribute name="maven.artifactId" value="richtextfx"/>
+			<attribute name="maven.version" value="0.6.3"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
