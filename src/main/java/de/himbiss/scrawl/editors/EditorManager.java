@@ -19,6 +19,8 @@ import org.apache.logging.log4j.Logger;
 
 import de.himbiss.scrawl.gui.MainLayoutController;
 import de.himbiss.scrawl.project.Node;
+import de.himbiss.scrawl.project.Person;
+import de.himbiss.scrawl.project.Scene;
 import de.himbiss.scrawl.util.Constants;
 
 public class EditorManager {
@@ -100,7 +102,10 @@ public class EditorManager {
 
 	public void openPreferredEditor(Node<?> node) {
 		// TODO: better implementation
-		openEditor(Constants.MANUSCRIPT_EDITOR, node);
+		if(node instanceof Scene)
+			openEditor(Constants.MANUSCRIPT_EDITOR, node);
+		else if(node instanceof Person)
+			openEditor(Constants.PERSON_EDITOR, node);
 	}
 	
 	public void setDirty(NodeEditor editor) {

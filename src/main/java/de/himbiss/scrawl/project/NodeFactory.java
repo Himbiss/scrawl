@@ -29,6 +29,12 @@ public class NodeFactory {
 
 	public static Person createPerson(String identifier) {
 		Person person = new Person(identifier);
+		person.setConflict("");
+		person.setEpiphany("");
+		person.setGoal("");
+		person.setMotivation("");
+		person.setOneParagraphStoryline("");
+		person.setOneSentenceSummary("");
 		personMap.put(identifier, person);
 		return person;
 	}

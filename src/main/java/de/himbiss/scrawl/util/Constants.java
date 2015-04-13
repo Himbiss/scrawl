@@ -3,6 +3,7 @@ package de.himbiss.scrawl.util;
 
 public class Constants {
 	public static final String MANUSCRIPT_EDITOR = "manuscript_editor";
+	public static final String PERSON_EDITOR = "person_editor";
 
 	public static final String WORKSPACE_PATH = "workspace_path";
 	
@@ -36,6 +37,7 @@ public class Constants {
 	public static final String TITLE = "Scrawl";
 
 	public static final String CSS_MANUSCRIPT_EDITOR = "css/manuscript_editor.css";
+
 
 	public static String IS_DIRTY = "*";
 }

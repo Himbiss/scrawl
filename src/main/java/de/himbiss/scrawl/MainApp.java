@@ -18,6 +18,7 @@ import com.google.inject.Module;
 
 import de.himbiss.scrawl.editors.EditorManager;
 import de.himbiss.scrawl.editors.manuscripteditor.ManuscriptEditor;
+import de.himbiss.scrawl.editors.personeditor.PersonEditor;
 import de.himbiss.scrawl.gui.MainLayoutController;
 import de.himbiss.scrawl.project.ProjectManager;
 import de.himbiss.scrawl.util.Constants;
@@ -55,6 +56,7 @@ public class MainApp extends GuiceApplication {
 		primaryStage.show();
 		
 		editorManager.registerEditor(Constants.MANUSCRIPT_EDITOR, ManuscriptEditor.class);
+		editorManager.registerEditor(Constants.PERSON_EDITOR, PersonEditor.class);
 		
 		projectManager.initialize();
 	}
