@@ -6,10 +6,13 @@ import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
+import javafx.util.Callback;
 
 import javax.inject.Inject;
 
@@ -113,10 +116,14 @@ public final class MainLayoutController implements Initializable {
 	public void setProject(Project project) {
 		if(project != null) {
 			clearTrees();
-			scenesTree.setRoot(new NodeTreeItem<>(project.getScenes()));
-			locationsTree.setRoot(new NodeTreeItem<>(project.getLocations()));
-			personsTree.setRoot(new NodeTreeItem<>(project.getPersons()));
-			objectsTree.setRoot(new NodeTreeItem<>(project.getObjects()));
+			NodeTreeItem<Scene> scenesRoot = new NodeTreeItem<>(project.getScenes());
+			NodeTreeItem<Location> locationsRoot = new NodeTreeItem<>(project.getLocations());
+			NodeTreeItem<Person> personsRoot = new NodeTreeItem<>(project.getPersons());
+			NodeTreeItem<Object> objectsRoot = new NodeTreeItem<>(project.getObjects());
+			scenesTree.setRoot(scenesRoot);
+			locationsTree.setRoot(locationsRoot);
+			personsTree.setRoot(personsRoot);
+			objectsTree.setRoot(objectsRoot);
 		}
 	}
 
@@ -143,11 +150,35 @@ public final class MainLayoutController implements Initializable {
 		locationsTree.setOnMouseClicked(new MouseDoubleclickHandler<>(locationsTree, editorManager));
 		personsTree.setOnMouseClicked(new MouseDoubleclickHandler<>(personsTree, editorManager));
 		objectsTree.setOnMouseClicked(new MouseDoubleclickHandler<>(objectsTree, editorManager));
+		
+		scenesTree.setCellFactory(new TreeItemCallback<Scene>());
+		locationsTree.setCellFactory(new TreeItemCallback<Location>());
+		personsTree.setCellFactory(new TreeItemCallback<Person>());
+		objectsTree.setCellFactory(new TreeItemCallback<Object>());
 	}
 	
 	
 }
 
+class TreeItemCallback <T extends Node<?>> implements Callback<TreeView<Node<T>>, TreeCell<Node<T>>> {
+
+	@Override
+	public TreeCell<Node<T>> call(TreeView<Node<T>> param) {
+		return new TreeCell<Node<T>>() {
+			@Override
+			protected void updateItem(Node<T> item, boolean empty) {
+				super.updateItem(item, empty);
+				if(!isEmpty()) {
+					item.registerObserver( (n) -> {setGraphic(new Label(n.getIdentifier()));} );
+					setGraphic(new Label(item.getIdentifier()));
+				} else {
+					setGraphic(null);
+				}
+			}
+		};
+	}
+	
+}
 class MouseDoubleclickHandler <T extends Node<T>> implements EventHandler<MouseEvent> {
 
 	private TreeView<Node<T>> treeView;

@@ -1,6 +1,9 @@
 package de.himbiss.scrawl.project;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
@@ -18,6 +21,8 @@ public abstract class Node<T> implements Serializable {
 	private String identifier;
 	private String content;
 	
+	private List<Consumer<Node<T>>> observers;
+	
 	private boolean isDeletable;
 	private boolean isExpanded;
 	
@@ -30,6 +35,7 @@ public abstract class Node<T> implements Serializable {
 		this.description = "";
 		this.content = "";
 		this.nodeType = nodeType;
+		this.observers = new ArrayList<Consumer<Node<T>>>();
 		setDeletable(true);
 		setExpanded(false);
 	}
@@ -38,9 +44,18 @@ public abstract class Node<T> implements Serializable {
 		this.identifier =identifier;
 		this.description = "";
 		this.content = "";
+		this.observers = new ArrayList<Consumer<Node<T>>>();
 		this.nodeType = nodeType;
 		setDeletable(isDeletable);
 		setExpanded(false);
+	}
+	
+	public void registerObserver(Consumer<Node<T>> observer) {
+		observers.add(observer);
+	}
+	
+	public void notifyObservers() {
+		observers.forEach( (o) -> {o.accept(this);} );
 	}
 	
 	public Node() {
@@ -54,6 +69,7 @@ public abstract class Node<T> implements Serializable {
 	
 	public void setDescription(String description) {
 		this.description = description;
+		notifyObservers();
 	}
 	
 	@XmlAttribute(name = "name")
@@ -63,6 +79,7 @@ public abstract class Node<T> implements Serializable {
 	
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
+		notifyObservers();
 	}
 
 	@XmlAttribute
@@ -116,6 +133,7 @@ public abstract class Node<T> implements Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
+		notifyObservers();
 	}
 	
 	@Override

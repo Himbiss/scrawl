@@ -106,5 +106,10 @@ public class ProjectManager implements ProjectController {
 		folder.add(new Folder<T>("New Folder", n.getNodeType()));
 		mainController.setProject(getProject());
 	}
+
+	@Override
+	public void refreshView() {
+		mainController.setProject(currentProject);
+	}
 	
 }

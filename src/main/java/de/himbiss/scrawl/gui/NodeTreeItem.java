@@ -15,7 +15,7 @@ public class NodeTreeItem<T> extends TreeItem<Node<T>> {
 	public NodeTreeItem(Node<T> node) {
 		super(node);
 		setExpanded(true);
-		addEventHandler(treeNotificationEvent(), (e) -> { node.setExpanded(isExpanded()); } ); 
+		addEventHandler(treeNotificationEvent(), (e) -> { node.setExpanded(isExpanded()); } );
 	}
 	
 	@Override

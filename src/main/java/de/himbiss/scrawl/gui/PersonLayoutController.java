@@ -39,13 +39,13 @@ public class PersonLayoutController implements Initializable {
 		epiphany.setText(person.getEpiphany());
 		oneParagraphStoryline.setText(person.getOneParagraphStoryline());
 		javafx.beans.value.ChangeListener<String> handler = (o,so,sn) -> {
-			person.setName(name.getText());
-			person.setOneSentenceSummary(oneSentenceSummary.getText());
-			person.setMotivation(motivation.getText());
-			person.setGoal(goal.getText());
-			person.setConflict(conflict.getText());
-			person.setEpiphany(epiphany.getText());
-			person.setOneParagraphStoryline(oneParagraphStoryline.getText());
+			this.person.setName(name.getText());
+			this.person.setOneSentenceSummary(oneSentenceSummary.getText());
+			this.person.setMotivation(motivation.getText());
+			this.person.setGoal(goal.getText());
+			this.person.setConflict(conflict.getText());
+			this.person.setEpiphany(epiphany.getText());
+			this.person.setOneParagraphStoryline(oneParagraphStoryline.getText());
 			onTextChange.accept(person);
 		};
 		name.textProperty().addListener(handler);

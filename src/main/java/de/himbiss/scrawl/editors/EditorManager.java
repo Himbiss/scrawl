@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 import de.himbiss.scrawl.gui.MainLayoutController;
 import de.himbiss.scrawl.project.Node;
 import de.himbiss.scrawl.project.Person;
+import de.himbiss.scrawl.project.ProjectManager;
 import de.himbiss.scrawl.project.Scene;
 import de.himbiss.scrawl.util.Constants;
 
@@ -28,6 +29,9 @@ public class EditorManager {
 
 	@Inject
 	MainLayoutController mainController;
+	
+	@Inject
+	ProjectManager projectController;
 
 	private Map<String, Class<NodeEditor>> editorMap;
 	private Set<Pair<NodeEditor, Tab>> editors;
@@ -123,12 +127,14 @@ public class EditorManager {
 	public void saveAll() {
 		List<NodeEditor> toSave = new ArrayList<>(dirtyEditors);
 		toSave.stream().forEach( (e) -> { e.save(); });
+		projectController.refreshView();
 	}
 
 	public void saveTab(Tab selectedItem) {
 		NodeEditor editor = editors.stream().filter( (p) -> { return p.getValue().equals(selectedItem);} ).findFirst().get().getKey();
 		if(editor != null) {
 			editor.save();
+			projectController.refreshView();
 		}
 	}
 	

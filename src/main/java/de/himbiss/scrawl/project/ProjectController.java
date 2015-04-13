@@ -31,5 +31,10 @@ public interface ProjectController {
 	 * @param n
 	 */
 	public <T> void handlePasteNode(Node<T> n);
+
+	/**
+	 * Refreshes the project view
+	 */
+	public void refreshView();
 	
 }
