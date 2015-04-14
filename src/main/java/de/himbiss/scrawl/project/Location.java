@@ -1,6 +1,5 @@
 package de.himbiss.scrawl.project;
 
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
@@ -13,10 +12,8 @@ public class Location extends Node<Location> {
 
 	private static final long serialVersionUID = 5158405417755517140L;
 
-	private String name;
 	private String summary;
 	private String inhabitants;
-	private String shortSummary;
 	
 	public Location() {
 		super(Constants.NEW_LOCATION, NodeType.LOCATION);
@@ -32,13 +29,12 @@ public class Location extends Node<Location> {
 		return false;
 	}
 
-	@XmlAttribute
 	public String getName() {
-		return name;
+		return getIdentifier();
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		setIdentifier(name);
 	}
 
 	@XmlElement
@@ -59,17 +55,23 @@ public class Location extends Node<Location> {
 		this.inhabitants = inhabitants;
 	}
 
-	@XmlElement
 	public String getShortSummary() {
-		return shortSummary;
+		return getDescription();
 	}
 
 	public void setShortSummary(String shortSummary) {
-		this.shortSummary = shortSummary;
+		setDescription(shortSummary);
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+
+	public void copyAttributes(Location location) {
+		setName(location.getName());
+		setShortSummary(location.getShortSummary());
+		setSummary(location.getSummary());
+		setInhabitants(location.getInhabitants());
 	}
 
 }
