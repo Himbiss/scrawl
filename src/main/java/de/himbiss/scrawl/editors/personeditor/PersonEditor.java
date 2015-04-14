@@ -40,7 +40,12 @@ public class PersonEditor extends NodeEditor {
 			if(result instanceof AnchorPane) {
 				controller = (PersonLayoutController) fxmlLoader.getController();
 				controller.setPerson(person, (p) -> { setDirty(); });
-				anchorPane.getChildren().add((AnchorPane)result);
+				AnchorPane anchor = (AnchorPane) result;
+				AnchorPane.setBottomAnchor(result, 0d);
+				AnchorPane.setLeftAnchor(anchor, 0d);
+				AnchorPane.setTopAnchor(anchor, 0d);
+				AnchorPane.setRightAnchor(anchor, 0d);
+				anchorPane.getChildren().add(anchor);
 				anchorPane.onKeyPressedProperty().setValue((e) -> {
 					if (e.isControlDown() && e.getCode() == KeyCode.S) {
 						save();

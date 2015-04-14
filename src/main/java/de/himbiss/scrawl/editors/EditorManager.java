@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
@@ -59,7 +60,7 @@ public class EditorManager {
 						editorInstance.createContent(anchorPane);
 						tab.setContent(anchorPane);
 						tab.setOnClosed((event) -> {
-							editors.remove(editorInstance);
+							editors = editors.stream().filter(p -> p.getKey() != editorInstance).collect(Collectors.toSet());
 						});
 						editors.add(new Pair<>(editorInstance,tab));
 						return mainController.openNewTab(tab);
