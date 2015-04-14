@@ -41,7 +41,7 @@ public class XMLProjectDAO implements IProjectDAO {
 		List<String> found = new ArrayList<>();
 		found.addAll(files.stream()
 				.filter( (file) -> { return file.getPath().endsWith(Constants.FILE_EXTENSION); } )
-				.map( (file) -> { return file.getName(); } )
+				.map( (file) -> { return file.getName().substring(0, file.getName().indexOf('.')); } )
 				.collect(Collectors.toList()));
 		return found;
 	}

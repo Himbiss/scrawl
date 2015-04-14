@@ -8,24 +8,30 @@ import javafx.scene.input.DataFormat;
 
 import javax.inject.Inject;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.himbiss.scrawl.MainApp;
 import de.himbiss.scrawl.dao.IProjectDAO;
+import de.himbiss.scrawl.editors.EditorManager;
 import de.himbiss.scrawl.gui.MainLayoutController;
 import de.himbiss.scrawl.util.Constants;
 import de.himbiss.scrawl.util.NodeHelper;
 
 public class ProjectManager implements ProjectController {
 	
+	private static Logger logger = LogManager.getLogger(ProjectManager.class);
+	
 	@Inject
 	MainLayoutController mainController;
 	
 	@Inject
+	EditorManager editorManager;
+	
+	@Inject
 	IProjectDAO dao;
 
-	Logger logger = LogManager.getLogger(ProjectManager.class);
 	
 	private Project currentProject;
 	
@@ -37,6 +43,20 @@ public class ProjectManager implements ProjectController {
 			currentProject = dao.loadProject(getLastProjectName());
 		}
 		mainController.setProject(getProject());
+	}
+	
+	public void openProject(String projectName) {
+		if(projectName != null) {
+			logger.log(Level.INFO, "Trying to open the project \""+projectName+"\"");
+			if(dao.projectExists(projectName)) {
+				editorManager.closeAllOpenTabs();
+				currentProject = dao.loadProject(projectName);
+				setLastProjectName(projectName);
+				mainController.setProject(getProject());
+			} else {
+				logger.log(Level.ERROR, "The project \""+projectName+"\" does not exist!");
+			}
+		}
 	}
 	
 	private String getLastProjectName() {

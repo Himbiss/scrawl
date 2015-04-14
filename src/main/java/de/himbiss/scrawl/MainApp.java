@@ -91,4 +91,8 @@ public class MainApp extends GuiceApplication {
 	public void init(List<Module> modules) throws Exception {
 		modules.add(new MainModule());
 	}
+
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
 }

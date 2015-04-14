@@ -1,14 +1,20 @@
 package de.himbiss.scrawl.gui;
 
 import java.net.URL;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
@@ -16,9 +22,14 @@ import javafx.util.Callback;
 
 import javax.inject.Inject;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.cathive.fx.guice.FXMLController;
 
 import de.himbiss.scrawl.MainApp;
+import de.himbiss.scrawl.dao.IProjectDAO;
 import de.himbiss.scrawl.editors.EditorManager;
 import de.himbiss.scrawl.project.Location;
 import de.himbiss.scrawl.project.Node;
@@ -27,12 +38,18 @@ import de.himbiss.scrawl.project.Person;
 import de.himbiss.scrawl.project.Project;
 import de.himbiss.scrawl.project.ProjectManager;
 import de.himbiss.scrawl.project.Scene;
+import de.himbiss.scrawl.util.Constants;
 import de.himbiss.scrawl.util.NodeHelper;
 
 @FXMLController(controllerId = "mainController")
 public final class MainLayoutController implements Initializable {
+	
+	private static Logger logger = LogManager.getLogger(MainLayoutController.class);
 
 	MainApp mainApp;
+	
+	@Inject
+	IProjectDAO dao;
 
 	@FXML
 	private TreeView<Node<Scene>> scenesTree;
@@ -74,7 +91,24 @@ public final class MainLayoutController implements Initializable {
 	 */
 	@FXML
 	private void handleNewProject() {
-		System.out.println("new project");
+		TextInputDialog dialog = new TextInputDialog("New Project");
+		dialog.setTitle("New project");
+		dialog.setHeaderText("Create a new project");
+		dialog.setContentText("New project name:");
+
+		// Traditional way to get the response value.
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()){
+			String projectName = result.get();
+			if(!dao.projectExists(projectName)) {
+				logger.log(Level.INFO, "Creating the new project \""+projectName+"\"");
+				dao.createProject(projectName);
+				projectManager.openProject(projectName);
+			} else {
+				Alert alert = new Alert(AlertType.ERROR, "This project already exists");
+				alert.showAndWait();
+			}
+		}
 	}
 
 	/**
@@ -82,7 +116,16 @@ public final class MainLayoutController implements Initializable {
 	 */
 	@FXML
 	private void handleOpenProject() {
-		System.out.println("open project");
+		List<String> projects = dao.findAll();
+		ChoiceDialog<String> dialog = new ChoiceDialog<>(projects.get(0), projects);
+		dialog.setTitle(Constants.OPEN_PROJECT);
+		dialog.setHeaderText(Constants.OPEN_PROJECT);
+		dialog.setContentText("Choose a project to open:");
+		
+		Optional<String> result = dialog.showAndWait();
+		if(result.isPresent()) {
+			projectManager.openProject(result.get());
+		}
 	}
 
 	/**
@@ -124,6 +167,7 @@ public final class MainLayoutController implements Initializable {
 			locationsTree.setRoot(locationsRoot);
 			personsTree.setRoot(personsRoot);
 			objectsTree.setRoot(objectsRoot);
+			mainApp.getPrimaryStage().setTitle(Constants.TITLE+": "+project.getIdentifier());
 		}
 	}
 
@@ -155,6 +199,11 @@ public final class MainLayoutController implements Initializable {
 		locationsTree.setCellFactory(new TreeItemCallback<Location>());
 		personsTree.setCellFactory(new TreeItemCallback<Person>());
 		objectsTree.setCellFactory(new TreeItemCallback<Object>());
+	}
+
+	public void closeTab(Tab tab) {
+		tab.getOnClosed().handle(null);
+		tabPane.getTabs().remove(tab);
 	}
 	
 	

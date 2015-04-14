@@ -141,5 +141,9 @@ public class EditorManager {
 			projectController.refreshView();
 		}
 	}
+
+	public void closeAllOpenTabs() {
+		editors.stream().forEach( p -> mainController.closeTab(p.getValue()) );
+	}
 	
 }
