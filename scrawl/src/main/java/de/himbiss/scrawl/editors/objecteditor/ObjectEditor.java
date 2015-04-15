@@ -1,6 +1,8 @@
 package de.himbiss.scrawl.editors.objecteditor;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyCode;
@@ -10,12 +12,11 @@ import javafx.scene.layout.Pane;
 import javax.inject.Inject;
 
 import de.himbiss.scrawl.MainApp;
-import de.himbiss.scrawl.project.Object;
 import de.himbiss.scrawl.editors.EditorManager;
 import de.himbiss.scrawl.editors.NodeEditor;
 import de.himbiss.scrawl.gui.ObjectLayoutController;
 import de.himbiss.scrawl.project.Node;
-import de.himbiss.scrawl.util.Constants;
+import de.himbiss.scrawl.project.Object;
 
 public class ObjectEditor extends NodeEditor {
 
@@ -67,11 +68,6 @@ public class ObjectEditor extends NodeEditor {
 	}
 
 	@Override
-	protected String getEditorId() {
-		return Constants.OBJECT_EDITOR;
-	}
-
-	@Override
 	protected Node<?> getNode() {
 		return object;
 	}
@@ -80,6 +76,13 @@ public class ObjectEditor extends NodeEditor {
 	public void save() {
 		object.copyAttributes(controller.getObject());
 		setClean();
+	}
+	
+	@Override
+	public Set<Class<? extends Node<?>>> getAssociatedNodes() {
+		Set<Class<? extends Node<?>>> ret = new HashSet<>();
+		ret.add(Object.class);
+		return ret;
 	}
 
 }

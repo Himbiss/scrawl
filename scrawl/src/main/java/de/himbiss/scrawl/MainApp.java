@@ -16,11 +16,6 @@ import com.cathive.fx.guice.GuiceFXMLLoader;
 import com.cathive.fx.guice.GuiceFXMLLoader.Result;
 import com.google.inject.Module;
 
-import de.himbiss.scrawl.editors.EditorManager;
-import de.himbiss.scrawl.editors.locationeditor.LocationEditor;
-import de.himbiss.scrawl.editors.manuscripteditor.ManuscriptEditor;
-import de.himbiss.scrawl.editors.objecteditor.ObjectEditor;
-import de.himbiss.scrawl.editors.personeditor.PersonEditor;
 import de.himbiss.scrawl.gui.MainLayoutController;
 import de.himbiss.scrawl.project.ProjectManager;
 import de.himbiss.scrawl.util.Constants;
@@ -28,15 +23,12 @@ import de.himbiss.scrawl.util.Constants;
 public class MainApp extends GuiceApplication {
 
 	private Stage primaryStage;
-
+	
 	@Inject
 	private MainLayoutController rootController;
 
 	@Inject
 	private GuiceFXMLLoader fxmlLoader;
-	
-	@Inject
-	private EditorManager editorManager;
 	
 	@Inject
 	private ProjectManager projectManager;
@@ -56,11 +48,6 @@ public class MainApp extends GuiceApplication {
 
 		primaryStage.setTitle(Constants.TITLE);
 		primaryStage.show();
-		
-		editorManager.registerEditor(Constants.MANUSCRIPT_EDITOR, ManuscriptEditor.class);
-		editorManager.registerEditor(Constants.PERSON_EDITOR, PersonEditor.class);
-		editorManager.registerEditor(Constants.LOCATION_EDITOR, LocationEditor.class);
-		editorManager.registerEditor(Constants.OBJECT_EDITOR, ObjectEditor.class);
 		
 		projectManager.initialize();
 	}

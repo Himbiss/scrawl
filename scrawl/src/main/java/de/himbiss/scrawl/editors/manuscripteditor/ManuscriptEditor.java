@@ -2,6 +2,8 @@ package de.himbiss.scrawl.editors.manuscripteditor;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Function;
 
 import javafx.beans.binding.Bindings;
@@ -39,7 +41,7 @@ import de.himbiss.scrawl.editors.EditorManager;
 import de.himbiss.scrawl.editors.NodeEditor;
 import de.himbiss.scrawl.project.Node;
 import de.himbiss.scrawl.project.NodeType;
-import de.himbiss.scrawl.util.Constants;
+import de.himbiss.scrawl.project.Scene;
 import de.himbiss.scrawl.util.StyleInfoHelper;
 
 public class ManuscriptEditor extends NodeEditor {
@@ -248,11 +250,6 @@ public class ManuscriptEditor extends NodeEditor {
 	}
 
 	@Override
-	public String getEditorId() {
-		return Constants.MANUSCRIPT_EDITOR;
-	}
-
-	@Override
 	public void initialize(Node<?> node) {
 		this.node = node;
 		
@@ -378,5 +375,11 @@ public class ManuscriptEditor extends NodeEditor {
 			updateStyleInSelection(StyleInfo.textColor(color));
 		}
 	}
-
+	
+	@Override
+	public Set<Class<? extends Node<?>>> getAssociatedNodes() {
+		Set<Class<? extends Node<?>>> ret = new HashSet<>();
+		ret.add(Scene.class);
+		return ret;
+	}
 }

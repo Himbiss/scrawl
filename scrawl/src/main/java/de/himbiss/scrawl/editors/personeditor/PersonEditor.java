@@ -1,6 +1,8 @@
 package de.himbiss.scrawl.editors.personeditor;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyCode;
@@ -15,7 +17,6 @@ import de.himbiss.scrawl.editors.NodeEditor;
 import de.himbiss.scrawl.gui.PersonLayoutController;
 import de.himbiss.scrawl.project.Node;
 import de.himbiss.scrawl.project.Person;
-import de.himbiss.scrawl.util.Constants;
 
 public class PersonEditor extends NodeEditor {
 
@@ -65,11 +66,6 @@ public class PersonEditor extends NodeEditor {
 	}
 
 	@Override
-	protected String getEditorId() {
-		return Constants.PERSON_EDITOR;
-	}
-
-	@Override
 	protected Node<?> getNode() {
 		return person;
 	}
@@ -79,5 +75,11 @@ public class PersonEditor extends NodeEditor {
 		person.copyAttributes(controller.getPerson());
 		setClean();
 	}
-
+	
+	@Override
+	public Set<Class<? extends Node<?>>> getAssociatedNodes() {
+		Set<Class<? extends Node<?>>> ret = new HashSet<>();
+		ret.add(Person.class);
+		return ret;
+	}
 }

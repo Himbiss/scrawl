@@ -1,5 +1,7 @@
 package de.himbiss.scrawl.editors;
 
+import java.util.Set;
+
 import javafx.scene.layout.AnchorPane;
 import de.himbiss.scrawl.project.Node;
 
@@ -14,11 +16,8 @@ public abstract class NodeEditor {
 	
 	protected abstract boolean validate(Node<?> nodeType);
 	
-	protected abstract String getEditorId();
-	
 	protected abstract Node<?> getNode();
 	
-
 	public EditorManager getEditorManager() {
 		return editorManager;
 	}
@@ -34,6 +33,8 @@ public abstract class NodeEditor {
 	public void setClean() {
 		editorManager.setClean(this);
 	}
+	
+	public abstract Set<Class<? extends Node<?>>> getAssociatedNodes();
 
 	public abstract void save();
 }

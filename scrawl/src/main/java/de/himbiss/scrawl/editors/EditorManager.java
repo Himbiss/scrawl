@@ -1,6 +1,7 @@
 package de.himbiss.scrawl.editors;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +19,10 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import de.himbiss.scrawl.editors.locationeditor.LocationEditor;
+import de.himbiss.scrawl.editors.manuscripteditor.ManuscriptEditor;
+import de.himbiss.scrawl.editors.objecteditor.ObjectEditor;
+import de.himbiss.scrawl.editors.personeditor.PersonEditor;
 import de.himbiss.scrawl.gui.MainLayoutController;
 import de.himbiss.scrawl.project.Location;
 import de.himbiss.scrawl.project.Node;
@@ -30,24 +35,43 @@ import de.himbiss.scrawl.util.Constants;
 public class EditorManager {
 	private static Logger logger = LogManager.getLogger(EditorManager.class);
 
+	EditorService editorService = EditorService.getInstance();
+	
 	@Inject
 	MainLayoutController mainController;
 	
 	@Inject
 	ProjectManager projectManager;
 
-	private Map<String, Class<NodeEditor>> editorMap;
+	private Map<Class<? extends Node<?>>,List<Class<? extends NodeEditor>>> editorAssociationMap;
+	private Map<String, Class<? extends NodeEditor>> editorMap;
 	private Set<Pair<NodeEditor, Tab>> editors;
 	private Set<NodeEditor> dirtyEditors;
 
 	public EditorManager() {
+		editorService.loadServices();
+		editorAssociationMap = new HashMap<>();
 		editorMap = new HashMap<>();
 		editors = new HashSet<>();
 		dirtyEditors = new HashSet<>();
+		initialize();
+	}
+	
+	public void initialize() {
+		registerEditor(ManuscriptEditor.class, Scene.class);
+		registerEditor(LocationEditor.class, Location.class);
+		registerEditor(ObjectEditor.class, Object.class);
+		registerEditor(PersonEditor.class, Person.class);
+		editorAssociationMap = new HashMap<>(editorService.getEditorAssociationMap());
+		editorMap = new HashMap<>(editorService.getEditors());
 	}
 
+	public <T> boolean openEditor(Class<? extends NodeEditor> clazz, Node<T> node) {
+		return openEditor(clazz.getName(), node);
+	}
+	
 	public <T> boolean openEditor(String editorId, Node<T> node) {
-		Class<NodeEditor> editorClass = editorMap.get(editorId);
+		Class<? extends NodeEditor> editorClass = editorMap.get(editorId);
 		logger.log(Level.INFO, "Opening node " + node.getIdentifier()
 				+ " in editor: " + editorId);
 		if (editorClass != null) {
@@ -87,36 +111,34 @@ public class EditorManager {
 	}
 
 	private boolean isEditorInstanceOpen(String editorId, Node<?> node) {
-		return editors.stream().anyMatch( (e) -> {return e.getKey().getEditorId().equals(editorId) && e.getKey().getNode().equals(node);} );
+		return editors.stream().anyMatch( (e) -> {return e.getKey().getClass().getName().equals(editorId) && e.getKey().getNode().equals(node);} );
 	}
 
-	@SuppressWarnings("unchecked")
-	public void registerEditor(String editorId, Class<?> editorClass) {
-		if (editorMap.get(editorId) == null) {
+	@SafeVarargs
+	@SuppressWarnings( "unchecked" )
+	public final void registerEditor(Class<? extends NodeEditor> editorClass, Class<? extends Node<?>>... nodes) {
+		if (editorMap.get(editorClass.getName()) == null) {
 			if (NodeEditor.class.isAssignableFrom(editorClass)) {
-				editorMap.put(editorId, (Class<NodeEditor>) editorClass);
-				logger.log(Level.INFO, "Registered editor with id: " + editorId);
+				editorMap.put(editorClass.getName(), (Class<NodeEditor>) editorClass);
+				Arrays.asList(nodes).stream().filter( n -> n==null ).forEach( n -> editorAssociationMap.get(n).add(editorClass) );
+				logger.log(Level.INFO, "Registered editor with id: " + editorClass.getName());
 			} else {
 				logger.log(Level.WARN, "Could not register editor with id: "
-						+ editorId + ", the class does not implement "
+						+ editorClass.getName() + ", the class does not implement "
 						+ NodeEditor.class.getName());
 			}
 		} else {
 			logger.log(Level.WARN, "Could not register editor with id: "
-					+ editorId + ", the editor was already registered");
+					+ editorClass.getName() + ", the editor was already registered");
 		}
 	}
 
+	public Set<String> getAssociatedEditors(Class<? extends Node<?>> clazz) {
+		return editorAssociationMap.get(clazz).stream().map( c -> c.getSimpleName()).collect(Collectors.toSet());
+	}
+	
 	public void openPreferredEditor(Node<?> node) {
-		// TODO: better implementation
-		if(node instanceof Scene)
-			openEditor(Constants.MANUSCRIPT_EDITOR, node);
-		else if(node instanceof Person)
-			openEditor(Constants.PERSON_EDITOR, node);
-		else if(node instanceof Location)
-			openEditor(Constants.LOCATION_EDITOR, node);
-		else if(node instanceof Object) 
-			openEditor(Constants.OBJECT_EDITOR, node);
+		openEditor(editorAssociationMap.get(node.getClass()).get(0), node);
 	}
 	
 	public void setDirty(NodeEditor editor) {

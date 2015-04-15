@@ -15,7 +15,7 @@ public class MainModule extends AbstractModule {
 		bind(MainLayoutController.class).asEagerSingleton();
 		bind(EditorManager.class).asEagerSingleton();
 		bind(ProjectManager.class).asEagerSingleton();
-		bind(IProjectDAO.class).to(XMLProjectDAO.class).asEagerSingleton();;
+		bind(IProjectDAO.class).to(XMLProjectDAO.class).asEagerSingleton();
 	}
 
 }

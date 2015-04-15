@@ -6,7 +6,13 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Scrawl</name>
 	<description>Scrawl is an outline editor for literary projects</description>
+
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.xbean</groupId>
+			<artifactId>xbean-finder</artifactId>
+			<version>4.2</version>
+		</dependency>
 		<dependency>
 			<groupId>org.fxmisc.richtext</groupId>
 			<artifactId>richtextfx</artifactId>
