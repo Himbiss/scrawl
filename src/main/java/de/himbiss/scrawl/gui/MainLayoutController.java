@@ -146,10 +146,12 @@ public final class MainLayoutController implements Initializable {
 
 	/**
 	 * Opens the about popup
+	 * @throws Exception 
 	 */
 	@FXML
-	private void handleAbout() {
-		System.out.println("about");
+	private void handleAbout() throws Exception {
+		AboutBox box = new AboutBox();
+		box.show();
 	}
 
 	public void setMainApp(MainApp mainApp) {

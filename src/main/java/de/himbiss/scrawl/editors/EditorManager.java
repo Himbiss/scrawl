@@ -34,7 +34,7 @@ public class EditorManager {
 	MainLayoutController mainController;
 	
 	@Inject
-	ProjectManager projectController;
+	ProjectManager projectManager;
 
 	private Map<String, Class<NodeEditor>> editorMap;
 	private Set<Pair<NodeEditor, Tab>> editors;
@@ -134,19 +134,21 @@ public class EditorManager {
 	public void saveAll() {
 		List<NodeEditor> toSave = new ArrayList<>(dirtyEditors);
 		toSave.stream().forEach( (e) -> { e.save(); });
-		projectController.refreshView();
+		projectManager.refreshView();
 	}
 
 	public void saveTab(Tab selectedItem) {
 		NodeEditor editor = editors.stream().filter( (p) -> { return p.getValue().equals(selectedItem);} ).findFirst().get().getKey();
 		if(editor != null) {
 			editor.save();
-			projectController.refreshView();
+			projectManager.refreshView();
 		}
 	}
 
 	public void closeAllOpenTabs() {
+		saveAll();
 		editors.stream().forEach( p -> mainController.closeTab(p.getValue()) );
+		projectManager.saveProject();
 	}
 	
 }
