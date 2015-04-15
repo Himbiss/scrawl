@@ -1,0 +1,16 @@
+.button.pressed { -fx-background-color: ghostwhite; }
+
+.button {
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+.button.undo { -fx-background-image: url(../images/undo.png); }
+.button.redo { -fx-background-image: url(../images/redo.png); }
+.button.cut { -fx-background-image: url(../images/cut.png); }
+.button.copy { -fx-background-image: url(../images/copy.png); }
+.button.paste { -fx-background-image: url(../images/paste.png); }
+.button.bold { -fx-background-image: url(../images/bold.png); }
+.button.italic { -fx-background-image: url(../images/italic.png); }
+.button.underline { -fx-background-image: url(../images/underline.png); }
+.button.strikethrough { -fx-background-image: url(../images/strikethrough.png); }
