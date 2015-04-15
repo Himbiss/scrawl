@@ -19,6 +19,7 @@ import com.google.inject.Module;
 import de.himbiss.scrawl.editors.EditorManager;
 import de.himbiss.scrawl.editors.locationeditor.LocationEditor;
 import de.himbiss.scrawl.editors.manuscripteditor.ManuscriptEditor;
+import de.himbiss.scrawl.editors.objecteditor.ObjectEditor;
 import de.himbiss.scrawl.editors.personeditor.PersonEditor;
 import de.himbiss.scrawl.gui.MainLayoutController;
 import de.himbiss.scrawl.project.ProjectManager;
@@ -59,6 +60,7 @@ public class MainApp extends GuiceApplication {
 		editorManager.registerEditor(Constants.MANUSCRIPT_EDITOR, ManuscriptEditor.class);
 		editorManager.registerEditor(Constants.PERSON_EDITOR, PersonEditor.class);
 		editorManager.registerEditor(Constants.LOCATION_EDITOR, LocationEditor.class);
+		editorManager.registerEditor(Constants.OBJECT_EDITOR, ObjectEditor.class);
 		
 		projectManager.initialize();
 	}

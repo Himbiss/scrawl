@@ -21,6 +21,7 @@ import org.apache.logging.log4j.Logger;
 import de.himbiss.scrawl.gui.MainLayoutController;
 import de.himbiss.scrawl.project.Location;
 import de.himbiss.scrawl.project.Node;
+import de.himbiss.scrawl.project.Object;
 import de.himbiss.scrawl.project.Person;
 import de.himbiss.scrawl.project.ProjectManager;
 import de.himbiss.scrawl.project.Scene;
@@ -114,6 +115,8 @@ public class EditorManager {
 			openEditor(Constants.PERSON_EDITOR, node);
 		else if(node instanceof Location)
 			openEditor(Constants.LOCATION_EDITOR, node);
+		else if(node instanceof Object) 
+			openEditor(Constants.OBJECT_EDITOR, node);
 	}
 	
 	public void setDirty(NodeEditor editor) {

@@ -13,11 +13,9 @@ public class Object extends Node<Object> {
 
 	private static final long serialVersionUID = -1248837597572107378L;
 
-	private String name;
 	private String type;
 	private String abilities;
 	private String location;
-	private String summary;
 	
 	public Object() {
 		super(Constants.NEW_OBJECT, NodeType.OBJECT);
@@ -33,13 +31,12 @@ public class Object extends Node<Object> {
 		return false;
 	}
 
-	@XmlAttribute
 	public String getName() {
-		return name;
+		return getIdentifier();
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		setIdentifier(name);
 	}
 
 	@XmlAttribute
@@ -69,17 +66,23 @@ public class Object extends Node<Object> {
 		this.location = location;
 	}
 
-	@XmlElement
 	public String getSummary() {
-		return summary;
+		return getDescription();
 	}
 
 	public void setSummary(String summary) {
-		this.summary = summary;
+		setDescription(summary);
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
+	public void copyAttributes(Object object) {
+		setName(object.getName());
+		setLocation(object.getLocation());
+		setType(object.getType());
+		setAbilities(object.getAbilities());
+		setSummary(object.getSummary());
+	}
 }

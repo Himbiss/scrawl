@@ -5,6 +5,7 @@ public class Constants {
 	public static final String MANUSCRIPT_EDITOR = "manuscript_editor";
 	public static final String PERSON_EDITOR = "person_editor";
 	public static final String LOCATION_EDITOR = "location_editor";
+	public static final String OBJECT_EDITOR = "object_editor";
 
 	public static final String WORKSPACE_PATH = "workspace_path";
 	
