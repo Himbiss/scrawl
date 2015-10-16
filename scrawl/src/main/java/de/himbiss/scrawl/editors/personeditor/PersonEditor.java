@@ -14,7 +14,7 @@ import de.himbiss.scrawl.MainApp;
 import de.himbiss.scrawl.editors.EditorManager;
 import de.himbiss.scrawl.editors.NodeEditor;
 import de.himbiss.scrawl.gui.EditorKeyEventHandler;
-import de.himbiss.scrawl.gui.PersonLayoutController;
+import de.himbiss.scrawl.gui.controller.PersonLayoutController;
 import de.himbiss.scrawl.project.Node;
 import de.himbiss.scrawl.project.Person;
 
@@ -75,5 +75,10 @@ public class PersonEditor extends NodeEditor {
 		Set<Class<? extends Node<?>>> ret = new HashSet<>();
 		ret.add(Person.class);
 		return ret;
+	}
+
+	@Override
+	protected String getEditorName() {
+		return "Person Editor";
 	}
 }

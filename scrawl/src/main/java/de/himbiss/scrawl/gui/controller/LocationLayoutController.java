@@ -1,4 +1,4 @@
-package de.himbiss.scrawl.gui;
+package de.himbiss.scrawl.gui.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;

@@ -15,7 +15,8 @@ import org.apache.logging.log4j.Logger;
 import de.himbiss.scrawl.MainApp;
 import de.himbiss.scrawl.dao.IProjectDAO;
 import de.himbiss.scrawl.editors.EditorManager;
-import de.himbiss.scrawl.gui.MainLayoutController;
+import de.himbiss.scrawl.editors.NodeEditor;
+import de.himbiss.scrawl.gui.controller.MainLayoutController;
 import de.himbiss.scrawl.util.Constants;
 import de.himbiss.scrawl.util.NodeHelper;
 
@@ -118,6 +119,11 @@ public class ProjectManager implements ProjectController {
 			}
 		}
 		mainController.setProject(getProject());
+	}
+
+	@Override
+	public void handleOpenNode(Node<?> node, Class<? extends NodeEditor> editor) {
+		editorManager.openEditor(editor, node);
 	}
 
 	@Override

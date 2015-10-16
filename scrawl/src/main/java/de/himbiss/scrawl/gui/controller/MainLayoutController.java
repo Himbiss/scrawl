@@ -1,4 +1,4 @@
-package de.himbiss.scrawl.gui;
+package de.himbiss.scrawl.gui.controller;
 
 import java.net.URL;
 import java.util.List;
@@ -31,6 +31,9 @@ import com.cathive.fx.guice.FXMLController;
 import de.himbiss.scrawl.MainApp;
 import de.himbiss.scrawl.dao.IProjectDAO;
 import de.himbiss.scrawl.editors.EditorManager;
+import de.himbiss.scrawl.gui.AboutBox;
+import de.himbiss.scrawl.gui.NodeTreeItem;
+import de.himbiss.scrawl.gui.TreeContextMenu;
 import de.himbiss.scrawl.project.Location;
 import de.himbiss.scrawl.project.Node;
 import de.himbiss.scrawl.project.Object;
@@ -230,6 +233,7 @@ class TreeItemCallback <T extends Node<?>> implements Callback<TreeView<Node<T>>
 	}
 	
 }
+
 class MouseDoubleclickHandler <T extends Node<T>> implements EventHandler<MouseEvent> {
 	private static Logger logger = LogManager.getLogger(MouseDoubleclickHandler.class);
 

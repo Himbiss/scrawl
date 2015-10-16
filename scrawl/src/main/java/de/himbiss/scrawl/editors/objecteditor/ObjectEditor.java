@@ -14,7 +14,7 @@ import de.himbiss.scrawl.MainApp;
 import de.himbiss.scrawl.editors.EditorManager;
 import de.himbiss.scrawl.editors.NodeEditor;
 import de.himbiss.scrawl.gui.EditorKeyEventHandler;
-import de.himbiss.scrawl.gui.ObjectLayoutController;
+import de.himbiss.scrawl.gui.controller.ObjectLayoutController;
 import de.himbiss.scrawl.project.Node;
 import de.himbiss.scrawl.project.Object;
 
@@ -77,6 +77,10 @@ public class ObjectEditor extends NodeEditor {
 		Set<Class<? extends Node<?>>> ret = new HashSet<>();
 		ret.add(Object.class);
 		return ret;
+	}
+	
+	public String getEditorName() {
+		return "Object Editor";
 	}
 
 }

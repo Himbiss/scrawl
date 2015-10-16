@@ -1,40 +1,50 @@
 package de.himbiss.scrawl.project;
 
+import de.himbiss.scrawl.editors.NodeEditor;
+
 public interface ProjectController {
 
 	/**
-	 * Handles adding a node to the currently selected node n
-	 * @param n
+	 * Handles adding a node to the currently selected node
+	 * @param node
 	 */
-	public <T> void handleNewNode(Node<T> n);
+	public <T> void handleNewNode(Node<T> node);
 	
 	/**
-	 * Handles adding a folder to the currently selected node n
-	 * @param n
+	 * Handles adding a folder to the currently selected node
+	 * @param node
 	 */
-	public <T> void handleNewFolder(Node<T> n);
+	public <T> void handleNewFolder(Node<T> node);
 	
 	/**
-	 * Handles the deletion of node n
-	 * @param n
+	 * Handles the deletion of node
+	 * @param node
 	 */
-	public <T> void handleDeleteNode(Node<T> n);
+	public <T> void handleDeleteNode(Node<T> node);
 	
 	/**
-	 * Handles copying of the node n to the clipboard
-	 * @param n
+	 * Handles copying of node to the clipboard
+	 * @param node
 	 */
-	public <T> void handleCopyNode(Node<T> n);
+	public <T> void handleCopyNode(Node<T> node);
 	
 	/**
-	 * Handles pasting the content of the clipboard at node n
-	 * @param n
+	 * Handles pasting the content of the clipboard at node
+	 * @param node
 	 */
-	public <T> void handlePasteNode(Node<T> n);
+	public <T> void handlePasteNode(Node<T> node);
+
+	/**
+	 * Handles opening node with editor
+	 * @param node
+	 * @param editor
+	 */
+	public void handleOpenNode(Node<?> node, Class<? extends NodeEditor> editor);
 
 	/**
 	 * Refreshes the project view
 	 */
 	public void refreshView();
+
 	
 }

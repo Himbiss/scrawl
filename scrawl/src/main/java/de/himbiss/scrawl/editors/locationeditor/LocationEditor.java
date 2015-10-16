@@ -14,7 +14,7 @@ import de.himbiss.scrawl.MainApp;
 import de.himbiss.scrawl.editors.EditorManager;
 import de.himbiss.scrawl.editors.NodeEditor;
 import de.himbiss.scrawl.gui.EditorKeyEventHandler;
-import de.himbiss.scrawl.gui.LocationLayoutController;
+import de.himbiss.scrawl.gui.controller.LocationLayoutController;
 import de.himbiss.scrawl.project.Location;
 import de.himbiss.scrawl.project.Node;
 
@@ -79,5 +79,9 @@ public class LocationEditor extends NodeEditor {
 		Set<Class<? extends Node<?>>> ret = new HashSet<>();
 		ret.add(Location.class);
 		return ret;
+	}
+	
+	public String getEditorName() {
+		return "Location Editor";
 	}
 }

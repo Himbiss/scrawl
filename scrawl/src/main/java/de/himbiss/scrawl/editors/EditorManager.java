@@ -1,11 +1,8 @@
 package de.himbiss.scrawl.editors;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,7 +20,7 @@ import de.himbiss.scrawl.editors.locationeditor.LocationEditor;
 import de.himbiss.scrawl.editors.manuscripteditor.ManuscriptEditor;
 import de.himbiss.scrawl.editors.objecteditor.ObjectEditor;
 import de.himbiss.scrawl.editors.personeditor.PersonEditor;
-import de.himbiss.scrawl.gui.MainLayoutController;
+import de.himbiss.scrawl.gui.controller.MainLayoutController;
 import de.himbiss.scrawl.project.Location;
 import de.himbiss.scrawl.project.Node;
 import de.himbiss.scrawl.project.Object;
@@ -33,6 +30,7 @@ import de.himbiss.scrawl.project.Scene;
 import de.himbiss.scrawl.util.Constants;
 
 public class EditorManager {
+	
 	private static Logger logger = LogManager.getLogger(EditorManager.class);
 
 	EditorService editorService = EditorService.getInstance();
@@ -43,31 +41,28 @@ public class EditorManager {
 	@Inject
 	ProjectManager projectManager;
 
-	private Map<String, Class<? extends NodeEditor>> editorMap;
 	private Set<Pair<NodeEditor, Tab>> editors;
 	private Set<NodeEditor> dirtyEditors;
 
 	public EditorManager() {
-		editorMap = new HashMap<>();
 		editors = new HashSet<>();
 		dirtyEditors = new HashSet<>();
 	}
 	
 	public void initialize() {
 		editorService.loadServices();
-		editorMap = new HashMap<>(editorService.getEditors());
-		registerEditor(ManuscriptEditor.class, Scene.class);
-		registerEditor(LocationEditor.class, Location.class);
-		registerEditor(ObjectEditor.class, Object.class);
-		registerEditor(PersonEditor.class, Person.class);
+		editorService.registerEditor(ManuscriptEditor.class, Scene.class);
+		editorService.registerEditor(LocationEditor.class, Location.class);
+		editorService.registerEditor(ObjectEditor.class, Object.class);
+		editorService.registerEditor(PersonEditor.class, Person.class);
 	}
 
-	public <T> boolean openEditor(Class<? extends NodeEditor> clazz, Node<T> node) {
-		return openEditor(clazz.getName(), node);
+	public <T> boolean openEditor(Class<? extends NodeEditor> editor, Node<T> node) {
+		return openEditor(editor.getName(), node);
 	}
 	
 	public <T> boolean openEditor(String editorId, Node<T> node) {
-		Class<? extends NodeEditor> editorClass = editorMap.get(editorId);
+		Class<? extends NodeEditor> editorClass = editorService.getEditors().get(editorId);
 		logger.log(Level.INFO, "Opening node " + node.getIdentifier()
 				+ " in editor: " + editorId);
 		if (editorClass != null) {
@@ -109,35 +104,13 @@ public class EditorManager {
 	private boolean isEditorInstanceOpen(String editorId, Node<?> node) {
 		return editors.stream().anyMatch( (e) -> {return e.getKey().getClass().getName().equals(editorId) && e.getKey().getNode().equals(node);} );
 	}
-
-	@SafeVarargs
-	@SuppressWarnings( "unchecked" )
-	public final void registerEditor(Class<? extends NodeEditor> editorClass, Class<? extends Node<?>>... nodes) {
-		if (editorMap.get(editorClass.getName()) == null) {
-			if (NodeEditor.class.isAssignableFrom(editorClass)) {
-				editorMap.put(editorClass.getName(), (Class<NodeEditor>) editorClass);
-				Arrays.asList(nodes).stream().forEach( n -> editorService.associateNodeWithEditor(n, editorClass) );
-				logger.log(Level.INFO, "Registered editor with id: " + editorClass.getName());
-			} else {
-				logger.log(Level.WARN, "Could not register editor with id: "
-						+ editorClass.getName() + ", the class does not implement "
-						+ NodeEditor.class.getName());
-			}
-		} else {
-			logger.log(Level.WARN, "Could not register editor with id: "
-					+ editorClass.getName() + ", the editor was already registered");
-		}
-	}
 	
 	public boolean openPreferredEditor(Node<?> node) {
-		Class<?> clazz = node.getClass();
-		if(editorService.getEditorAssociationMap().containsKey(clazz) && editorService.getEditorAssociationMap().get(clazz).size() > 0) {
-			List<Class<? extends NodeEditor>> associatedEditors = editorService.getEditorAssociationMap().get(clazz);
-			Class<? extends NodeEditor> preferredEditorClass = associatedEditors.get(0);
-			return openEditor(preferredEditorClass, node);
-			
+		Class<? extends NodeEditor> editor = editorService.getPreferredEditor(node.getClass());
+		if(editor != null) {
+			return openEditor(editor, node);
 		} else {
-			logger.log(Level.FATAL, "Tried to open editor but no editor was associated with the node of type " + clazz.getName());
+			logger.log(Level.FATAL, "Tried to open editor but no editor was associated with the node of type " + node.getClass().getName());
 			return false;
 		}
 	}

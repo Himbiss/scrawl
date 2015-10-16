@@ -19,6 +19,7 @@ public class Constants {
 	public static final String COPY_ITEM = "Copy";
 	public static final String PASTE_ITEM = "Paste";
 	public static final String DELETE_ITEM = "Delete";
+	public static final String OPEN_WITH = "Open with";
 	
 	// node types
 	public static final String FOLDER_NODE = "Folder";

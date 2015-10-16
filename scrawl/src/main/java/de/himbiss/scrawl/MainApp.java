@@ -17,7 +17,7 @@ import com.cathive.fx.guice.GuiceFXMLLoader.Result;
 import com.google.inject.Module;
 
 import de.himbiss.scrawl.editors.EditorManager;
-import de.himbiss.scrawl.gui.MainLayoutController;
+import de.himbiss.scrawl.gui.controller.MainLayoutController;
 import de.himbiss.scrawl.project.ProjectManager;
 import de.himbiss.scrawl.util.Constants;
 

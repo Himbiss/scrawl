@@ -377,4 +377,8 @@ public class ManuscriptEditor extends NodeEditor {
 		ret.add(Scene.class);
 		return ret;
 	}
+	
+	public String getEditorName() {
+		return "Manuscript Editor";
+	}
 }

@@ -2,6 +2,7 @@ package de.himbiss.scrawl.editors;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -67,6 +68,18 @@ public class EditorService {
 		editorAssociationMap.get(nodeClass).add(editorClass);
 	}
 	
+	public Class<? extends NodeEditor> getPreferredEditor(Class<?> clazz) {
+		List<Class<? extends NodeEditor>> associatedEditors = getAssociatedEditors(clazz);
+		if(associatedEditors != null && !associatedEditors.isEmpty()) {
+			return associatedEditors.get(0);
+		}
+		return null;
+	}
+	
+	public List<Class<? extends NodeEditor>> getAssociatedEditors(Class<?> clazz) {
+		return editorAssociationMap.get(clazz);
+	}
+	
 	public static synchronized EditorService getInstance() {
 		if(service == null)
 			service = new EditorService();
@@ -75,6 +88,36 @@ public class EditorService {
 	
 	public Map<Class<? extends Node<?>>,List<Class<? extends NodeEditor>>> getEditorAssociationMap() {
 		return editorAssociationMap;
+	}
+	
+	public String getEditorName(Class<? extends NodeEditor> editor) {
+		try{
+			NodeEditor editorInstance = editor.newInstance();
+			return editorInstance.getEditorName();
+		} catch (Exception e) {
+			logger.log(Level.WARN, "Could not instantiate editor \""+editor.getName()+"\": "+e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@SafeVarargs
+	@SuppressWarnings( "unchecked" )
+	public final void registerEditor(Class<? extends NodeEditor> editorClass, Class<? extends Node<?>>... nodes) {
+		if (editors.get(editorClass.getName()) == null) {
+			if (NodeEditor.class.isAssignableFrom(editorClass)) {
+				editors.put(editorClass.getName(), (Class<NodeEditor>) editorClass);
+				Arrays.asList(nodes).stream().forEach( n -> associateNodeWithEditor(n, editorClass) );
+				logger.log(Level.INFO, "Registered editor with id: " + editorClass.getName());
+			} else {
+				logger.log(Level.WARN, "Could not register editor with id: "
+						+ editorClass.getName() + ", the class does not implement "
+						+ NodeEditor.class.getName());
+			}
+		} else {
+			logger.log(Level.WARN, "Could not register editor with id: "
+					+ editorClass.getName() + ", the editor was already registered");
+		}
 	}
 
 	public Map<String, Class<? extends NodeEditor>> getEditors() {

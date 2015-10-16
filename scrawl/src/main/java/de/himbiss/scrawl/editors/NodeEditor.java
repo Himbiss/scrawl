@@ -9,7 +9,6 @@ public abstract class NodeEditor {
 	
 	private EditorManager editorManager;
 	
-	
 	protected abstract void initialize(Node<?> content);
 	
 	protected abstract void createContent(AnchorPane anchorPane);
@@ -17,6 +16,8 @@ public abstract class NodeEditor {
 	protected abstract boolean validate(Node<?> nodeType);
 	
 	protected abstract Node<?> getNode();
+	
+	protected abstract String getEditorName();
 	
 	public EditorManager getEditorManager() {
 		return editorManager;
