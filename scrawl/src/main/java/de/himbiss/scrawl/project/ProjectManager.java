@@ -20,7 +20,7 @@ import de.himbiss.scrawl.gui.controller.MainLayoutController;
 import de.himbiss.scrawl.util.Constants;
 import de.himbiss.scrawl.util.NodeHelper;
 
-public class ProjectManager implements ProjectController {
+public class ProjectManager implements IProjectController {
 	
 	private static Logger logger = LogManager.getLogger(ProjectManager.class);
 	
@@ -50,7 +50,7 @@ public class ProjectManager implements ProjectController {
 		if(projectName != null) {
 			logger.log(Level.INFO, "Trying to open the project \""+projectName+"\"");
 			if(dao.projectExists(projectName)) {
-				editorManager.closeAllOpenTabs();
+				editorManager.closeAllOpenEditors();
 				currentProject = dao.loadProject(projectName);
 				setLastProjectName(projectName);
 				mainController.setProject(getProject());

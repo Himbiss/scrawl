@@ -60,7 +60,7 @@ public class PersonEditor extends NodeEditor {
 	}
 
 	@Override
-	protected Node<?> getNode() {
+	public Node<?> getNode() {
 		return person;
 	}
 
@@ -78,7 +78,7 @@ public class PersonEditor extends NodeEditor {
 	}
 
 	@Override
-	protected String getEditorName() {
+	public String getEditorName() {
 		return "Person Editor";
 	}
 }

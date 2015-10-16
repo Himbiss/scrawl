@@ -17,7 +17,7 @@ import javafx.scene.input.DataFormat;
 import de.himbiss.scrawl.editors.EditorService;
 import de.himbiss.scrawl.editors.NodeEditor;
 import de.himbiss.scrawl.project.Node;
-import de.himbiss.scrawl.project.ProjectController;
+import de.himbiss.scrawl.project.IProjectController;
 import de.himbiss.scrawl.util.Constants;
 
 public class TreeContextMenu <T> extends ContextMenu {
@@ -37,7 +37,7 @@ public class TreeContextMenu <T> extends ContextMenu {
 	private Property<Boolean> deleteDisabled;
 	private Property<Boolean> openDisabled;
 	
-	public TreeContextMenu(TreeView<Node<T>> treeView, DataFormat fmt, ProjectController projectController) {
+	public TreeContextMenu(TreeView<Node<T>> treeView, DataFormat fmt, IProjectController projectController) {
 		this.treeView = treeView;
 		newItem = new MenuItem(Constants.NEW_ITEM);
 		newFolderItem = new MenuItem(Constants.NEW_FOLDER);
@@ -101,9 +101,9 @@ public class TreeContextMenu <T> extends ContextMenu {
 	
 	private class OpenWithMenu extends Menu {
 		
-		private ProjectController projectController;
+		private IProjectController projectController;
 		
-		public OpenWithMenu(String name, ProjectController projectController) {
+		public OpenWithMenu(String name, IProjectController projectController) {
 			super(name);
 			this.projectController = projectController;
 		}

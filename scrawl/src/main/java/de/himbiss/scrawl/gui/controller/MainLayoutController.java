@@ -80,13 +80,11 @@ public final class MainLayoutController implements Initializable {
 	}
 
 	/**
-	 * Closes the application.
+	 * Closes the application and tries to save all open editors before that.
 	 */
 	@FXML
 	private void handleExit() {
-		editorManager.saveAll();
-		projectManager.saveProject();
-		System.exit(0);
+		mainApp.exitApplication();
 	}
 
 	/**

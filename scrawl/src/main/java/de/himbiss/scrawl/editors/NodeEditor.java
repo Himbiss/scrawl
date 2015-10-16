@@ -15,9 +15,9 @@ public abstract class NodeEditor {
 	
 	protected abstract boolean validate(Node<?> nodeType);
 	
-	protected abstract Node<?> getNode();
+	public abstract String getEditorName();
 	
-	protected abstract String getEditorName();
+	public abstract Node<?> getNode();
 	
 	public EditorManager getEditorManager() {
 		return editorManager;

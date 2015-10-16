@@ -62,7 +62,7 @@ public class ObjectEditor extends NodeEditor {
 	}
 
 	@Override
-	protected Node<?> getNode() {
+	public Node<?> getNode() {
 		return object;
 	}
 

@@ -64,7 +64,7 @@ public class LocationEditor extends NodeEditor {
 	}
 
 	@Override
-	protected Node<?> getNode() {
+	public Node<?> getNode() {
 		return location;
 	}
 

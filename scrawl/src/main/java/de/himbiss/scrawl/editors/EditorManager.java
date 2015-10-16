@@ -2,8 +2,8 @@ package de.himbiss.scrawl.editors;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import javafx.scene.control.Tab;
@@ -127,24 +127,48 @@ public class EditorManager {
 		dirtyEditors.remove(editor);
 	}
 
+	/**
+	 * Saves all open editors
+	 */
 	public void saveAll() {
-		List<NodeEditor> toSave = new ArrayList<>(dirtyEditors);
-		toSave.stream().forEach( (e) -> { e.save(); });
-		projectManager.refreshView();
+		saveAll( e -> true );
+	}
+	
+	/**
+	 * Filters all editors with predicate and saves them if the predicate is true.
+	 * @param predicate
+	 */
+	public void saveAll(Predicate<NodeEditor> predicate) {
+		new ArrayList<NodeEditor>(dirtyEditors).stream().filter(predicate).forEach( e -> e.save() );
+		projectManager.refreshView();	
 	}
 
+	/**
+	 * Saves the content of an open tab
+	 * @param selectedItem
+	 */
 	public void saveTab(Tab selectedItem) {
-		NodeEditor editor = editors.stream().filter( (p) -> { return p.getValue().equals(selectedItem);} ).findFirst().get().getKey();
+		NodeEditor editor = editors.stream().filter( p -> p.getValue().equals(selectedItem) ).findFirst().get().getKey();
 		if(editor != null) {
 			editor.save();
 			projectManager.refreshView();
 		}
 	}
 
-	public void closeAllOpenTabs() {
-		saveAll();
+	/**
+	 * Closes all open editors and saves the content
+	 */
+	public void closeAllOpenEditors() {
+		closeAllOpenEditors( e -> true );
+	}
+	
+	/**
+	 * Closes all open editors, saves the content according to the predicate 
+	 * @param predicate
+	 */
+	public void closeAllOpenEditors(Predicate<NodeEditor> predicate) {
+		saveAll(predicate);
 		editors.stream().forEach( p -> mainController.closeTab(p.getValue()) );
 		projectManager.saveProject();
 	}
-	
 }

@@ -2,7 +2,7 @@ package de.himbiss.scrawl.project;
 
 import de.himbiss.scrawl.editors.NodeEditor;
 
-public interface ProjectController {
+public interface IProjectController {
 
 	/**
 	 * Handles adding a node to the currently selected node
