@@ -2,9 +2,9 @@ package de.himbiss.scrawl.editors;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import javafx.scene.control.Tab;
 import javafx.scene.layout.AnchorPane;
@@ -28,6 +28,7 @@ import de.himbiss.scrawl.project.Person;
 import de.himbiss.scrawl.project.ProjectManager;
 import de.himbiss.scrawl.project.Scene;
 import de.himbiss.scrawl.util.Constants;
+import de.himbiss.scrawl.util.Utils;
 
 public class EditorManager {
 	
@@ -77,7 +78,10 @@ public class EditorManager {
 						editorInstance.createContent(anchorPane);
 						tab.setContent(anchorPane);
 						tab.setOnClosed((event) -> {
-							editors = editors.stream().filter(p -> p.getKey() != editorInstance).collect(Collectors.toSet());
+							if(dirtyEditors.contains(editorInstance)) {
+								saveTab(tab, e1 -> Utils.closeEditorAskUser(e1));
+							}
+							editors.removeIf(p -> p.getKey().equals(editorInstance));
 						});
 						editors.add(new Pair<>(editorInstance,tab));
 						return mainController.openNewTab(tab);
@@ -116,15 +120,19 @@ public class EditorManager {
 	}
 	
 	public void setDirty(NodeEditor editor) {
-		Tab tab = editors.stream().filter( (p) -> {return p.getKey().equals(editor); }).findFirst().get().getValue();
-		tab.setText(editor.getNode().getIdentifier() + Constants.IS_DIRTY);
-		dirtyEditors.add(editor);
+		Optional<Pair<NodeEditor, Tab>> optional = editors.stream().filter( (p) -> {return p.getKey().equals(editor); }).findFirst();
+		if(optional.isPresent()) {
+			optional.get().getValue().setText(editor.getNode().getIdentifier() + Constants.IS_DIRTY);
+			dirtyEditors.add(editor);
+		}
 	}
 	
 	public void setClean(NodeEditor editor) {
-		Tab tab = editors.stream().filter( (p) -> {return p.getKey().equals(editor);} ).findFirst().get().getValue();
-		tab.setText(editor.getNode().getIdentifier());
-		dirtyEditors.remove(editor);
+		Optional<Pair<NodeEditor, Tab>> optional = editors.stream().filter( (p) -> {return p.getKey().equals(editor); }).findFirst();
+		if(optional.isPresent()) {
+			optional.get().getValue().setText(editor.getNode().getIdentifier());
+			dirtyEditors.remove(editor);
+		}
 	}
 
 	/**
@@ -140,6 +148,8 @@ public class EditorManager {
 	 */
 	public void saveAll(Predicate<NodeEditor> predicate) {
 		new ArrayList<NodeEditor>(dirtyEditors).stream().filter(predicate).forEach( e -> e.save() );
+		dirtyEditors.forEach( e -> e.setClean() );
+		dirtyEditors.clear();
 		projectManager.refreshView();	
 	}
 
@@ -148,9 +158,21 @@ public class EditorManager {
 	 * @param selectedItem
 	 */
 	public void saveTab(Tab selectedItem) {
-		NodeEditor editor = editors.stream().filter( p -> p.getValue().equals(selectedItem) ).findFirst().get().getKey();
-		if(editor != null) {
-			editor.save();
+		saveTab(selectedItem, e -> true);
+	}
+	
+	public void focusOnEditor(NodeEditor editor) {
+		Optional<Pair<NodeEditor, Tab>> optional = editors.stream().filter( p -> p.getKey().equals(editor) ).findFirst();
+		if(optional.isPresent()) {
+			Tab tab = optional.get().getValue();
+			tab.getTabPane().getSelectionModel().select(tab);
+		}
+	}
+	
+	public void saveTab(Tab tab, Predicate<NodeEditor> pred) {
+		Optional<Pair<NodeEditor, Tab>> optional = editors.stream().filter( p -> p.getValue().equals(tab) ).findFirst();
+		if(optional.isPresent() && pred.test(optional.get().getKey())) {
+			optional.get().getKey().save();
 			projectManager.refreshView();
 		}
 	}

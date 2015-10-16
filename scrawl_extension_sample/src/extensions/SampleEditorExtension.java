@@ -33,7 +33,7 @@ public class SampleEditorExtension extends NodeEditor{
 	}
 
 	@Override
-	protected Node<?> getNode() {
+	public Node<?> getNode() {
 		return location;
 	}
 
@@ -47,6 +47,11 @@ public class SampleEditorExtension extends NodeEditor{
 	@Override
 	public void save() {
 		setClean();
+	}
+
+	@Override
+	public String getEditorName() {
+		return "Sample Editor";
 	}
 
 }

@@ -41,6 +41,7 @@ public class Constants {
 	public static final String TITLE = "Scrawl";
 
 	public static final String CSS_MANUSCRIPT_EDITOR = "css/manuscript_editor.css";
+	public static final String CSS_APPLICATION = "css/style.css";
 	public static final String OPEN_PROJECT = "Open Project";
 	public static final String SERVICE_LOCATION = "META-INF/services/";
 

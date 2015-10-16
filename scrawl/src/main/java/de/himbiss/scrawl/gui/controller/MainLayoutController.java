@@ -205,7 +205,6 @@ public final class MainLayoutController implements Initializable {
 	}
 
 	public void closeTab(Tab tab) {
-		tab.getOnClosed().handle(null);
 		tabPane.getTabs().remove(tab);
 	}
 	
