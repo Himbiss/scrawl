@@ -16,6 +16,7 @@ import com.cathive.fx.guice.GuiceFXMLLoader;
 import com.cathive.fx.guice.GuiceFXMLLoader.Result;
 import com.google.inject.Module;
 
+import de.himbiss.scrawl.editors.EditorManager;
 import de.himbiss.scrawl.gui.MainLayoutController;
 import de.himbiss.scrawl.project.ProjectManager;
 import de.himbiss.scrawl.util.Constants;
@@ -24,7 +25,7 @@ public class MainApp extends GuiceApplication {
 
 	private Stage primaryStage;
 	
-	@Inject
+	@Inject 
 	private MainLayoutController rootController;
 
 	@Inject
@@ -33,6 +34,9 @@ public class MainApp extends GuiceApplication {
 	@Inject
 	private ProjectManager projectManager;
 
+	@Inject
+	private EditorManager EditorManager;
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		this.primaryStage = primaryStage;
@@ -50,6 +54,7 @@ public class MainApp extends GuiceApplication {
 		primaryStage.show();
 		
 		projectManager.initialize();
+		EditorManager.initialize();
 	}
 	
 	void showMainLayout() {

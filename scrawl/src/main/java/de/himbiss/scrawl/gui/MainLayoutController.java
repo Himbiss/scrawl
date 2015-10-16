@@ -231,6 +231,7 @@ class TreeItemCallback <T extends Node<?>> implements Callback<TreeView<Node<T>>
 	
 }
 class MouseDoubleclickHandler <T extends Node<T>> implements EventHandler<MouseEvent> {
+	private static Logger logger = LogManager.getLogger(MouseDoubleclickHandler.class);
 
 	private TreeView<Node<T>> treeView;
 	private EditorManager editorManager;
@@ -242,8 +243,13 @@ class MouseDoubleclickHandler <T extends Node<T>> implements EventHandler<MouseE
 	
 	@Override
 	public void handle(MouseEvent event) {
-		if(event.getClickCount() > 1)
-			editorManager.openPreferredEditor(treeView.getSelectionModel().getSelectedItem().getValue());
+		if(event.getClickCount() > 1) {
+			Node<?> node = treeView.getSelectionModel().getSelectedItem().getValue();
+			boolean success = editorManager.openPreferredEditor(node);
+			if(!success) {
+				logger.log(Level.FATAL, "Could not open node " + node.toString() + " in new editor");
+			}
+		}
 	}
 	
 }

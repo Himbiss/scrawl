@@ -39,10 +39,7 @@ public class EditorService {
 					editors.put(editorClass.getName(),editorClass);
 					
 					for(Class<? extends Node<?>> nodeClass : editor.getAssociatedNodes()) {
-						if(editorAssociationMap.get(nodeClass) == null) {
-							editorAssociationMap.put(nodeClass, new ArrayList<>());
-						}
-						editorAssociationMap.get(nodeClass).add(editorClass);
+						associateNodeWithEditor(nodeClass, editorClass);
 					}
 					
 				} catch (InstantiationException e) {
@@ -61,6 +58,13 @@ public class EditorService {
 			logger.log(Level.ERROR, "The ResourceFinder could not load editor extensions: "+e.getMessage());
 			e.printStackTrace();
 		}
+	}
+	
+	public void associateNodeWithEditor(Class<? extends Node<?>> nodeClass, Class<? extends NodeEditor> editorClass) {
+		if(editorAssociationMap.get(nodeClass) == null) {
+			editorAssociationMap.put(nodeClass, new ArrayList<>());
+		}
+		editorAssociationMap.get(nodeClass).add(editorClass);
 	}
 	
 	public static synchronized EditorService getInstance() {

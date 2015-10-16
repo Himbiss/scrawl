@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javafx.fxml.FXMLLoader;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
@@ -14,6 +13,7 @@ import javax.inject.Inject;
 import de.himbiss.scrawl.MainApp;
 import de.himbiss.scrawl.editors.EditorManager;
 import de.himbiss.scrawl.editors.NodeEditor;
+import de.himbiss.scrawl.gui.EditorKeyEventHandler;
 import de.himbiss.scrawl.gui.LocationLayoutController;
 import de.himbiss.scrawl.project.Location;
 import de.himbiss.scrawl.project.Node;
@@ -51,13 +51,7 @@ public class LocationEditor extends NodeEditor {
 				AnchorPane.setTopAnchor(anchor, 0d);
 				AnchorPane.setRightAnchor(anchor, 0d);
 				anchorPane.getChildren().add(anchor);
-				anchorPane.onKeyPressedProperty().setValue((e) -> {
-					if (e.isControlDown() && e.getCode() == KeyCode.S) {
-						save();
-					} else if (!e.isMetaDown()) {
-						setDirty();
-					}
-				});
+				anchorPane.onKeyPressedProperty().setValue(EditorKeyEventHandler.create(this));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

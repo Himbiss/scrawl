@@ -14,7 +14,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.IndexRange;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -39,6 +38,7 @@ import com.rtfparserkit.parser.standard.StandardRtfParser;
 
 import de.himbiss.scrawl.editors.EditorManager;
 import de.himbiss.scrawl.editors.NodeEditor;
+import de.himbiss.scrawl.gui.EditorKeyEventHandler;
 import de.himbiss.scrawl.project.Node;
 import de.himbiss.scrawl.project.NodeType;
 import de.himbiss.scrawl.project.Scene;
@@ -67,13 +67,8 @@ public class ManuscriptEditor extends NodeEditor {
 		AnchorPane.setBottomAnchor(area, 0d);
 		AnchorPane.setRightAnchor(area, 0d);
 		AnchorPane.setLeftAnchor(area, 0d);
-		area.onKeyPressedProperty().setValue((e) -> {
-			if (e.isControlDown() && e.getCode() == KeyCode.S) {
-				save();
-			} else if (!e.isMetaDown()) {
-				setDirty();
-			}
-		});
+		area.onKeyPressedProperty().setValue(EditorKeyEventHandler.create(this));
+		
 		CheckBox wrapToggle = new CheckBox("Wrap");
 		wrapToggle.setSelected(true);
 		area.wrapTextProperty().bind(wrapToggle.selectedProperty());
