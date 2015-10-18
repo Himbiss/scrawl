@@ -14,7 +14,7 @@ import de.himbiss.scrawl.MainApp;
 import de.himbiss.scrawl.editors.EditorManager;
 import de.himbiss.scrawl.editors.NodeEditor;
 import de.himbiss.scrawl.gui.EditorKeyEventHandler;
-import de.himbiss.scrawl.gui.controller.LocationLayoutController;
+import de.himbiss.scrawl.gui.layout_controller.LocationLayoutController;
 import de.himbiss.scrawl.project.Location;
 import de.himbiss.scrawl.project.Node;
 

@@ -17,7 +17,7 @@ import javafx.scene.input.DataFormat;
 import de.himbiss.scrawl.editors.EditorService;
 import de.himbiss.scrawl.editors.NodeEditor;
 import de.himbiss.scrawl.project.Node;
-import de.himbiss.scrawl.project.IProjectController;
+import de.himbiss.scrawl.project.IControlsProject;
 import de.himbiss.scrawl.util.Constants;
 
 public class TreeContextMenu <T> extends ContextMenu {
@@ -37,7 +37,7 @@ public class TreeContextMenu <T> extends ContextMenu {
 	private Property<Boolean> deleteDisabled;
 	private Property<Boolean> openDisabled;
 	
-	public TreeContextMenu(TreeView<Node<T>> treeView, DataFormat fmt, IProjectController projectController) {
+	public TreeContextMenu(TreeView<Node<T>> treeView, DataFormat fmt, IControlsProject projectController) {
 		this.treeView = treeView;
 		newItem = new MenuItem(Constants.NEW_ITEM);
 		newFolderItem = new MenuItem(Constants.NEW_FOLDER);
@@ -101,9 +101,9 @@ public class TreeContextMenu <T> extends ContextMenu {
 	
 	private class OpenWithMenu extends Menu {
 		
-		private IProjectController projectController;
+		private IControlsProject projectController;
 		
-		public OpenWithMenu(String name, IProjectController projectController) {
+		public OpenWithMenu(String name, IControlsProject projectController) {
 			super(name);
 			this.projectController = projectController;
 		}
@@ -119,11 +119,16 @@ public class TreeContextMenu <T> extends ContextMenu {
 						if(editorName == null)
 							continue;
 						MenuItem item = new MenuItem(editorName);
-						item.setOnAction( (e) -> projectController.handleOpenNode(selectedNode, editor));
+						item.setOnAction( (e) -> handleOpenNode(selectedNode, editor) );
 						getItems().add(item); 
 					}
 				}
 			}
+		}
+		
+		private void handleOpenNode(Node<?> node, Class<? extends NodeEditor> editor) {
+			//TODO: add dialog that shows a 'processing' message if the action takes too long
+			projectController.handleOpenNode(node, editor);
 		}
 		
 	}

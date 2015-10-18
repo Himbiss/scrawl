@@ -20,7 +20,7 @@ import de.himbiss.scrawl.editors.locationeditor.LocationEditor;
 import de.himbiss.scrawl.editors.manuscripteditor.ManuscriptEditor;
 import de.himbiss.scrawl.editors.objecteditor.ObjectEditor;
 import de.himbiss.scrawl.editors.personeditor.PersonEditor;
-import de.himbiss.scrawl.gui.controller.MainLayoutController;
+import de.himbiss.scrawl.gui.layout_controller.MainLayoutController;
 import de.himbiss.scrawl.project.Location;
 import de.himbiss.scrawl.project.Node;
 import de.himbiss.scrawl.project.Object;

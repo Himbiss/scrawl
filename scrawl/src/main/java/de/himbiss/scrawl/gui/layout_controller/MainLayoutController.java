@@ -1,4 +1,4 @@
-package de.himbiss.scrawl.gui.controller;
+package de.himbiss.scrawl.gui.layout_controller;
 
 import java.net.URL;
 import java.util.List;
@@ -45,7 +45,7 @@ import de.himbiss.scrawl.util.Constants;
 import de.himbiss.scrawl.util.NodeHelper;
 
 @FXMLController(controllerId = "mainController")
-public final class MainLayoutController implements Initializable {
+public final class MainLayoutController implements Initializable, IVisualizesProject {
 	
 	private static Logger logger = LogManager.getLogger(MainLayoutController.class);
 
@@ -74,6 +74,8 @@ public final class MainLayoutController implements Initializable {
 	
 	@Inject
 	private EditorManager editorManager;
+	
+	private Project project;
 	
 	public boolean openNewTab(Tab tab) {
 		return tabPane.getTabs().add(tab);
@@ -159,6 +161,7 @@ public final class MainLayoutController implements Initializable {
 		this.mainApp = mainApp;
 	}
 
+	@Override
 	public void setProject(Project project) {
 		if(project != null) {
 			clearTrees();
@@ -171,7 +174,13 @@ public final class MainLayoutController implements Initializable {
 			personsTree.setRoot(personsRoot);
 			objectsTree.setRoot(objectsRoot);
 			mainApp.getPrimaryStage().setTitle(Constants.TITLE+": "+project.getIdentifier());
+			this.project = project;
 		}
+	}
+	
+	@Override
+	public Project getProject() {
+		return project;
 	}
 
 	private void clearTrees() {
