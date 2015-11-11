@@ -5,10 +5,11 @@ import java.util.stream.Collectors;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
+import de.himbiss.scrawl.project.AbstractNode;
 import de.himbiss.scrawl.project.Folder;
 import de.himbiss.scrawl.project.Node;
 
-public class NodeTreeItem<T> extends TreeItem<Node<T>> {
+public class NodeTreeItem<T> extends TreeItem<AbstractNode> {
 	
 	private boolean isFirstTimeChildren = true;
 	

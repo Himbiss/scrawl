@@ -3,8 +3,8 @@ package de.himbiss.scrawl.util;
 import javafx.scene.input.DataFormat;
 import de.himbiss.scrawl.project.Folder;
 import de.himbiss.scrawl.project.Node;
-import de.himbiss.scrawl.project.NodeFactory;
-import de.himbiss.scrawl.project.NodeType;
+import de.himbiss.scrawl.project.NodeRegistry;
+import de.himbiss.scrawl.project.ContentType;
 
 public class NodeHelper {
 	// clipboard data formats
@@ -14,7 +14,7 @@ public class NodeHelper {
 	public static final DataFormat OBJECT_FORMAT = new DataFormat("obj/object");
 	public static final DataFormat FOLDER_FORMAT = new DataFormat("obj/folder");
 
-	public static DataFormat getDataFormat(NodeType type) {
+	public static DataFormat getDataFormat(ContentType type) {
 		switch(type) {
 		case PERSON:
 			return PERSON_FORMAT;
@@ -47,7 +47,7 @@ public class NodeHelper {
 			Folder<T> folder = (Folder<T>) node;
 			folder.getComponents().stream().forEach( (n) -> { registerNodes(n); } );
 		} else {
-			NodeFactory.registerNode(node);
+			NodeRegistry.registerNode(node);
 		}
 	}
 }

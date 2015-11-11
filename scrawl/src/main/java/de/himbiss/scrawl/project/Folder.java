@@ -12,44 +12,44 @@ import de.himbiss.scrawl.util.Constants;
 
 @XmlType(name = "folder")
 @XmlRootElement(name = "folder")
-public class Folder <T> extends Node<T> {
+public class Folder extends Node {
 
 	private static final long serialVersionUID = 2807640596345882562L;
 	
-	private List<Node<T>> components;
+	private List<Node> components;
 	
-	public Folder(String identifier, NodeType nodeType) {
-		super(identifier, nodeType);
-		components = new ArrayList<Node<T>>();
+	public Folder(String identifier, ContentType nodeType) {
+		super(identifier, true, true);
+		components = new ArrayList<Node>();
 	}
-	
-	public Folder(String identifier, NodeType nodeType, boolean isDeletable) {
-		super(identifier, nodeType, isDeletable);
-		components = new ArrayList<Node<T>>();
+	 
+	public Folder(String identifier, ContentType nodeType, boolean isDeletable) {
+		super(identifier, true, isDeletable);
+		components = new ArrayList<Node>();
 	}
 
 	public Folder() {
-		super(Constants.NEW_FOLDER, null);
-		components = new ArrayList<Node<T>>();
+		super(Constants.NEW_FOLDER, true, true);
+		components = new ArrayList<Node>();
 	}
 
-	public void add(Node<T> component) {
+	public void add(Node component) {
 		component.setParent(this);
 		components.add(component);
 	}
 	
-	public void remove(Node<T> component) {
+	public void remove(Node component) {
 		component.setParent(null);
 		components.remove(component);
 	}
 	
 	@XmlElementWrapper(name = "components")
 	@XmlElement
-	public List<Node<T>> getComponents() {
+	public List<Node> getComponents() {
 		return components;
 	}
 	
-	public void setComponents(List<Node<T>> components) {
+	public void setComponents(List<Node> components) {
 		this.components = components;
 	}
 	

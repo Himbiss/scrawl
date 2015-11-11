@@ -22,7 +22,7 @@ import de.himbiss.scrawl.editors.EditorManager;
 import de.himbiss.scrawl.editors.NodeEditor;
 import de.himbiss.scrawl.gui.EditorKeyEventHandler;
 import de.himbiss.scrawl.project.Node;
-import de.himbiss.scrawl.project.NodeType;
+import de.himbiss.scrawl.project.ContentType;
 import de.himbiss.scrawl.project.Scene;
 
 public class ManuscriptEditor extends NodeEditor {
@@ -73,7 +73,7 @@ public class ManuscriptEditor extends NodeEditor {
 
 	@Override
 	protected boolean validate(Node<?> node) {
-		return node.getNodeType() == NodeType.SCENE;
+		return node.getNodeType() == ContentType.SCENE;
 	}
 
 	@Override

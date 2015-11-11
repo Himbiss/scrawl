@@ -1,29 +1,22 @@
 package de.himbiss.scrawl.project;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import de.himbiss.scrawl.util.Constants;
 
 public class NodeFactory {
-
-	private static final Map<String, Scene> sceneMap = new HashMap<String, Scene>();
-	private static final Map<String, Person> personMap = new HashMap<String, Person>();
-	private static final Map<String, Location> locationMap = new HashMap<String, Location>();
-	private static final Map<String, Object> objectMap = new HashMap<String, Object>();
 	
 	public static Project createProject(String identifier) {
 		return new Project(identifier);
 	}
 	
-	public static Folder<?> createFolder(String identifier, NodeType nodeType) {
+	public static Folder<?> createFolder(String identifier, ContentType nodeType) {
 		return new Folder<>(identifier, nodeType);
 	}
 	
 	public static Scene  createScene(String identifier) {
 		Scene scene = new Scene(identifier);
-		sceneMap.put(identifier, scene);
+		NodeRegistry.registerNode(scene);
 		return scene;
 	}
 
@@ -35,39 +28,25 @@ public class NodeFactory {
 		person.setMotivation("");
 		person.setOneParagraphStoryline("");
 		person.setOneSentenceSummary("");
-		personMap.put(identifier, person);
+		NodeRegistry.registerNode(person);
 		return person;
 	}
 	
 	public static Location createLocation(String identifier) {
 		Location location = new Location(identifier);
-		locationMap.put(identifier, location);
+		NodeRegistry.registerNode(location);
 		return location;
 	}
 	
 	public static Object createObject(String identifier) {
 		Object object = new Object(identifier);
-		objectMap.put(identifier, object);
+		NodeRegistry.registerNode(object);
 		return object;
 	}
 	
-	public static boolean sceneExists(String identifier) {
-		return sceneMap.containsKey(identifier);
-	}
 	
-	public static boolean personExists(String identifier) {
-		return personMap.containsKey(identifier);
-	}
 	
-	public static boolean locationExists(String identifier) {
-		return locationMap.containsKey(identifier);
-	}
-	
-	public static boolean objectExists(String identifier) {
-		return objectMap.containsKey(identifier);
-	}
-	
-	public static <T> Node<?> createUniqueNode(NodeType nodeType) {
+	public static <T> Node<?> createUniqueNode(ContentType nodeType) {
 		if(nodeType != null) {
 			switch(nodeType) {
 			case SCENE:
@@ -83,82 +62,44 @@ public class NodeFactory {
 		return null;
 	}
 	
-	public static String generateUniqueIdentifier(String pre, Set<String> keySet) {
+	public static String generateUniqueIdentifier(String prefix, Set<String> takenIdentifiers) {
 		int index = 0;
-		while(keySet.contains(pre+index)) {
+		while(takenIdentifiers.contains(prefix+index)) {
 			index++;
 		}
-		return pre+index;
+		return prefix+index;
 	}
 
 	public static Location createUniqueLocation() {
-		return createLocation(generateUniqueIdentifier(Constants.LOCATION_NODE, locationMap.keySet()));
+		return createLocation(generateUniqueIdentifier(Constants.LOCATION_NODE, NodeRegistry.getTakenLocations()));
 	}
 
 	public static Person createUniquePerson() {
-		return createPerson(generateUniqueIdentifier(Constants.PERSON_NODE, personMap.keySet()));
+		return createPerson(generateUniqueIdentifier(Constants.PERSON_NODE, NodeRegistry.getTakenPersons()));
 	}
 
 	public static Object createUniqueObject() {
-		return createObject(generateUniqueIdentifier(Constants.OBJECT_NODE, objectMap.keySet()));
+		return createObject(generateUniqueIdentifier(Constants.OBJECT_NODE, NodeRegistry.getTakenObjects()));
 	}
 
 	public static Scene createUniqueScene() {
-		return createScene(generateUniqueIdentifier(Constants.SCENE_NODE, sceneMap.keySet()));
+		return createScene(generateUniqueIdentifier(Constants.SCENE_NODE, NodeRegistry.getTakenScenes()));
 	}
 	
 
-	public static void registerNode(Node<?> n) {
-		if(n != null) {
-		switch(n.getNodeType()) {
-			case SCENE:
-				sceneMap.put(n.getIdentifier(),(Scene) n);
-				break;
-			case LOCATION:
-				locationMap.put(n.getIdentifier(),(Location) n);
-				break;
-			case PERSON:
-				personMap.put(n.getIdentifier(),(Person) n);
-				break;
-			case OBJECT:
-				objectMap.put(n.getIdentifier(),(Object) n);
-				break;
-			default:
-				break;
-			}
-		}
-	}
 	
-	public static void freeNode(String identifier, NodeType nodeType) {
-		switch(nodeType) {
-		case SCENE:
-			sceneMap.remove(identifier);
-			break;
-		case LOCATION:
-			locationMap.remove(identifier);
-			break;
-		case PERSON:
-			personMap.remove(identifier);
-			break;
-		case OBJECT:
-			objectMap.remove(identifier);
-			break;
-		default:
-			break;
-		}
-	}
 
 	public static String generateUniqueIdentifier(String pre,
-			NodeType nodeType) {
+			ContentType nodeType) {
 		switch(nodeType) {
 		case SCENE:
-			return generateUniqueIdentifier(pre, sceneMap.keySet());
+			return generateUniqueIdentifier(pre, NodeRegistry.getTakenScenes());
 		case LOCATION:
-			return generateUniqueIdentifier(pre, locationMap.keySet());
+			return generateUniqueIdentifier(pre, NodeRegistry.getTakenLocations());
 		case PERSON:
-			return generateUniqueIdentifier(pre, personMap.keySet());
+			return generateUniqueIdentifier(pre, NodeRegistry.getTakenPersons());
 		case OBJECT:
-			return generateUniqueIdentifier(pre, objectMap.keySet());
+			return generateUniqueIdentifier(pre, NodeRegistry.getTakenObjects());
 		default:
 			return pre;
 		}

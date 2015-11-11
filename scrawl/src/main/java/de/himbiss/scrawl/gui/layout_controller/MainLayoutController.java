@@ -55,16 +55,7 @@ public final class MainLayoutController implements Initializable, IVisualizesPro
 	IProjectDAO dao;
 
 	@FXML
-	private TreeView<Node<Scene>> scenesTree;
-	
-	@FXML
-	private TreeView<Node<Person>> personsTree;
-	
-	@FXML
-	private TreeView<Node<Object>> objectsTree;
-	
-	@FXML
-	private TreeView<Node<Location>> locationsTree;
+	private TreeView<Node<?>> projectTree;
 
 	@FXML
 	private TabPane tabPane;
@@ -169,10 +160,7 @@ public final class MainLayoutController implements Initializable, IVisualizesPro
 			NodeTreeItem<Location> locationsRoot = new NodeTreeItem<>(project.getLocations());
 			NodeTreeItem<Person> personsRoot = new NodeTreeItem<>(project.getPersons());
 			NodeTreeItem<Object> objectsRoot = new NodeTreeItem<>(project.getObjects());
-			scenesTree.setRoot(scenesRoot);
-			locationsTree.setRoot(locationsRoot);
-			personsTree.setRoot(personsRoot);
-			objectsTree.setRoot(objectsRoot);
+			projectTree.setRoot(new NodeTreeItem<>(project));
 			mainApp.getPrimaryStage().setTitle(Constants.TITLE+": "+project.getIdentifier());
 			this.project = project;
 		}
@@ -184,10 +172,7 @@ public final class MainLayoutController implements Initializable, IVisualizesPro
 	}
 
 	private void clearTrees() {
-		scenesTree.setRoot(null);
-		locationsTree.setRoot(null);
-		personsTree.setRoot(null);
-		objectsTree.setRoot(null);
+		projectTree.setRoot(null);
 	}
 
 	@Override

@@ -4,11 +4,12 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import de.himbiss.scrawl.project.content.IContent;
 import de.himbiss.scrawl.util.Constants;
 
 @XmlType(name = "location")
 @XmlRootElement(name = "location")
-public class Location extends Node<Location> {
+public class Location implements IContent {
 
 	private static final long serialVersionUID = 5158405417755517140L;
 
@@ -16,62 +17,36 @@ public class Location extends Node<Location> {
 	private String inhabitants;
 	
 	public Location() {
-		super(Constants.NEW_LOCATION, NodeType.LOCATION);
 		// for jaxb / serialization
-	}
-	
-	public Location(String identifier) {
-		super(identifier, NodeType.LOCATION);
 	}
 
 	@Override
-	public boolean isFolder() {
-		return false;
+	public String getIdentifier() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	public String getName() {
-		return getIdentifier();
+	@Override
+	public void setIdentifier() {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public void setName(String name) {
-		setIdentifier(name);
+	@Override
+	public String getContent() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	@XmlElement
-	public String getSummary() {
-		return summary;
+	@Override
+	public void setContent(String content) {
+		// TODO Auto-generated method stub
+		
 	}
 
-	public void setSummary(String summary) {
-		this.summary = summary;
-	}
-
-	@XmlElement
-	public String getInhabitants() {
-		return inhabitants;
-	}
-
-	public void setInhabitants(String inhabitants) {
-		this.inhabitants = inhabitants;
-	}
-
-	public String getShortSummary() {
-		return getDescription();
-	}
-
-	public void setShortSummary(String shortSummary) {
-		setDescription(shortSummary);
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public void copyAttributes(Location location) {
-		setName(location.getName());
-		setShortSummary(location.getShortSummary());
-		setSummary(location.getSummary());
-		setInhabitants(location.getInhabitants());
+	@Override
+	public ContentType getContentType() {
+		return ContentType.LOCATION;
 	}
 
 }

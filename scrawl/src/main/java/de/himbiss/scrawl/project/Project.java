@@ -23,10 +23,10 @@ public class Project extends Folder<Node<?>> {
 	
 	public Project(String identifier) {
 		super(identifier, null);
-		scenes = new Folder<>("Scenes", NodeType.SCENE, false);
-		persons = new Folder<>("Persons", NodeType.PERSON, false);
-		objects = new Folder<>("Objects", NodeType.OBJECT, false);
-		locations = new Folder<>("Locations", NodeType.LOCATION, false);
+		scenes = new Folder<>("Scenes", ContentType.SCENE, false);
+		persons = new Folder<>("Persons", ContentType.PERSON, false);
+		objects = new Folder<>("Objects", ContentType.OBJECT, false);
+		locations = new Folder<>("Locations", ContentType.LOCATION, false);
 	}
 	
 	@XmlElement

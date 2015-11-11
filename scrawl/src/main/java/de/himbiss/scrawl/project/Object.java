@@ -18,12 +18,12 @@ public class Object extends Node<Object> {
 	private String location;
 	
 	public Object() {
-		super(Constants.NEW_OBJECT, NodeType.OBJECT);
+		super(Constants.NEW_OBJECT, ContentType.OBJECT);
 		// for jaxb / serialization
 	}
 	
 	public Object(String identifier) {
-		super(identifier, NodeType.OBJECT);
+		super(identifier, ContentType.OBJECT);
 	}
 
 	@Override

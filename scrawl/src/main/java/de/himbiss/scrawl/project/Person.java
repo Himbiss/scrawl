@@ -19,12 +19,12 @@ public class Person extends Node<Person> {
 	private String oneParagraphStoryline;
 
 	public Person() {
-		super(Constants.NEW_PERSON, NodeType.PERSON);
+		super(Constants.NEW_PERSON, ContentType.PERSON);
 		// for jaxb / serialization
 	}
 	
 	public Person(String identifier) {
-		super(identifier, NodeType.PERSON);
+		super(identifier, ContentType.PERSON);
 	}
 
 	@Override

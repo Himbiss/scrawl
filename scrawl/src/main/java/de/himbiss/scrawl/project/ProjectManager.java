@@ -95,7 +95,7 @@ public class ProjectManager implements IControlsProject {
 	public <T> boolean handleDeleteNode(Node<T> node) {
 		if(node.isDeletable()) {
 			node.getParent().remove(node);
-			NodeFactory.freeNode(node.getIdentifier(), node.getNodeType());
+			NodeRegistry.freeNode(node.getIdentifier(), node.getNodeType());
 			projectView.setProject(getProject());
 			return true;
 		}
@@ -120,7 +120,7 @@ public class ProjectManager implements IControlsProject {
 			if(content.getNodeType().equals(node.getNodeType())) {
 				Node<T> paste = (Node<T>) content;
 				paste.setIdentifier(NodeFactory.generateUniqueIdentifier(paste.getIdentifier(),paste.getNodeType()));
-				NodeFactory.registerNode(paste);
+				NodeRegistry.registerNode(paste);
 				NodeHelper.getNextFolder(node).add(paste);
 				projectView.setProject(getProject());
 				return true;
